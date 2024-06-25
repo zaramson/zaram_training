@@ -1,3 +1,12 @@
+// ==================================================
+//	[ ZARAM OJT. ]
+//	* Author		: Seok Jin Son (sonsj98@zaram.com)
+//	* Filename		: parity.v
+//	* Date			: 2024-06-25 10:40:03
+//	* Description	:
+// ==================================================
+
+
 module parity 
 #(
 	parameter	BW_DATA = 8

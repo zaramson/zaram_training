@@ -1,3 +1,5 @@
+
+
 module seq_detect_moore 
 (
 	output	reg		o_out,
@@ -58,5 +60,19 @@ module seq_detect_moore
 		endcase
 	end
 
+	//DEBUG
+	`ifdef DEBUG
+		reg [32*8-1:0]	stateMonitor;
+		always @(*) begin
+			case(cState)
+			S_IDLE	:	stateMonitor	=	"S_IDLE";
+            S_H	  	:	stateMonitor	=	"S_H";
+            S_HL  	:	stateMonitor	=	"S_HL";
+            S_HLH 	:	stateMonitor	=	"S_HLH";
+			S_HLHH	:	stateMonitor	=	"S_HLHH";
+			endcase
+		end
+	`endif
+	
 
 endmodule

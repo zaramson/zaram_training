@@ -4,6 +4,7 @@
 // --------------------------------------------------
 `define	CLKFREQ		100		// Clock Freq. (Unit: MHz)
 `define	SIMCYCLE	50	// Sim. Cycles
+`define DEBUG
 
 // --------------------------------------------------
 //	Includes
@@ -38,7 +39,6 @@ module seq_detect_moore_tb;
 // Tasks
 // ----------------------------------
 	reg [8*32-1:0] 	taskState;
-	integer			err = 0;
 
 	task init;
 		begin
@@ -49,13 +49,13 @@ module seq_detect_moore_tb;
 		end
 	endtask
 
-	task resetReleaseAfterNCycles;
+	task resetNCycles;
 		input	[9:0]	n;
 		begin
-			taskState		= "Reset";
+			taskState		= "Reset_ON";
 			#(n*1000/`CLKFREQ);
 			i_rstn = 1;
-			taskState		= "";
+			taskState		= "Reset_OFF";
 		end
 	endtask
 // --------------------------------------------------
@@ -64,10 +64,10 @@ module seq_detect_moore_tb;
 	integer		i, j;
 	initial begin
 		init();
-		resetReleaseAfterNCycles(4);
+		resetNCycles(4);
 
 		for (i=0; i<`SIMCYCLE; i++) begin
-			i_seq	= $urandom_range(0,1);
+			i_seq	= $urandom(0,1);
 			#(1000/`CLKFREQ);
 		end
 		#(1000/`CLKFREQ);

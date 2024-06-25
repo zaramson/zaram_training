@@ -1,5 +1,5 @@
 // ==================================================
-//	[ VLSISYS Lab. ]
+//	[ ZARAM OJT. ]
 //	* Author		: Seok Jin Son (sonsj98@zaram.com)
 //	* Filename		: gray_cc_tb.v
 //	* Date			: 2024-06-24 11:28:06

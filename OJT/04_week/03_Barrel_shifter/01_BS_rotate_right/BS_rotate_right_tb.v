@@ -1,58 +1,59 @@
 // ==================================================
 //	[ ZARAM OJT. ]
 //	* Author		: Seok Jin Son (sonsj98@zaram.com)
-//	* Filename		: parity_tb.v
-//	* Date			: 2024-06-25 10:40:24
+//	* Filename		: BS_rotate_right_tb.v
+//	* Date			: 2024-06-25 14:28:48
 //	* Description	:
 // ==================================================
-
 
 // --------------------------------------------------
 //	Define Global Variables
 // --------------------------------------------------
 `define	CLKFREQ		100		// Clock Freq. (Unit: MHz)
-`define	SIMCYCLE	`NVEC	// Sim. Cycles
-`define BW_DATA		8		// Bitwidth of ~~
-`define NVEC		100		// # of Test Vector
+`define	SIMCYCLE	50	// Sim. Cycles
 
 // --------------------------------------------------
 //	Includes
 // --------------------------------------------------
-`include	"parity.v"
+`include	"BS_rotate_right.v"
 
-module parity_tb;
+module BS_rotate_right_tb;
 // --------------------------------------------------
 //	DUT Signals & Instantiate
 // --------------------------------------------------
-	reg	[`BW_DATA-1:0]		i_A;
-	wire					o_Y;
+	reg 		[3:0] i_A;
+	reg 		[1:0] i_k;
+	wire		[3:0] o_Y;
 
-	parity
-	#(
-	.BW_DATA			(`BW_DATA			)
-	)
-	u_parity(
+	BS_rotate_right
+	u_BS_rotate_right(
 	.i_A				(i_A				),
+	.i_k				(i_k				),
 	.o_Y				(o_Y				)
 	);
 
 // ----------------------------------
-// Tasks
+// Task
 // ----------------------------------
+	reg [8*32-1:0] taskState;
+
 	task init;
 		begin
-			i_A	= 0;
+			i_A			= 0;
+			i_k			= 0;
 		end
 	endtask
 
 // --------------------------------------------------
 //	Test Stimulus
 // --------------------------------------------------
-	integer		i;
+	integer		i, j;
 	initial begin
 		init();
+
 		for (i=0; i<`SIMCYCLE; i++) begin
-			{i_A} =  $urandom_range(0, 2**`BW_DATA-1);
+			i_A = $urandom;
+			i_k = $urandom;
 			#(1000/`CLKFREQ);
 		end
 		$finish;
@@ -67,13 +68,11 @@ module parity_tb;
 			$dumpfile(vcd_file);
 			$dumpvars;
 		end else begin
-			$dumpfile("parity_tb.vcd");
+			$dumpfile("BS_rotate_right_tb.vcd");
 			$dumpvars;
 		end
 	end
 
 endmodule
-
-
 
 

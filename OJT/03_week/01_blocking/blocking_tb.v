@@ -57,10 +57,10 @@ module blocking_tb;
 		init();
 
 		for (i=0; i<`SIMCYCLE; i++) begin
-		j	= $urandom_range(0,10);
-		#((		(j*0.1)) * 1000/`CLKFREQ);
-		i_d = $urandom;
-		#((	1-	(j*0.1)) * 1000/`CLKFREQ);
+			j	= $urandom_range(0,10);
+			#((		(j*0.1)) * 1000/`CLKFREQ);
+			i_d = $urandom;
+			#((	1-	(j*0.1)) * 1000/`CLKFREQ);
 		end
 		$finish;
 	end
