@@ -17,9 +17,9 @@ module BS_rotate_right
     always @(*) begin
         case (i_k)
             2'b00: 		o_Y = i_A;
-            2'b01: 		o_Y = {i_A[0], i_A[3:1]};       // Shift right 1
-            2'b10: 		o_Y = {i_A[1:0], i_A[3:2]};     // Shift right 2
-            2'b11: 		o_Y = {i_A[2:0], i_A[3]};       // Shift right 3
+            2'b01: 		o_Y = {i_A[0], i_A[3:1]};       // Rotate right 1
+            2'b10: 		o_Y = {i_A[1:0], i_A[3:2]};     // Rotate right 2
+            2'b11: 		o_Y = {i_A[2:0], i_A[3]};       // Rotate right 3
             default:	o_Y = i_A;
         endcase
     end

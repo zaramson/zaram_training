@@ -1,0 +1,345 @@
+## if statement
+#snippet if
+#	if (${1}) begin
+#		${0}
+#	end
+## If/else statements
+#snippet ife
+#	if (${1}) begin
+#		${2}
+#	end
+#	else begin
+#		${3}
+#	end
+## Else if statement
+#snippet eif
+#	else if (${1}) begin
+#		${0}
+#	end
+##Else statement
+#snippet el
+#	else begin
+#		${0}
+#	end
+## While statement
+#snippet wh
+#	while (${1}) begin
+#		${0}
+#	end
+## Repeat Loop
+#snippet rep
+#	repeat (${1}) begin
+#		${0}
+#	end
+## Case statement
+#snippet case
+#	case (${1:/* variable */})
+#		${2:/* value */}: begin
+#			${3}
+#		end
+#		default: begin
+#			${4}
+#		end
+#	endcase
+## CaseZ statement
+#snippet casez
+#	casez (${1:/* variable */})
+#		${2:/* value */}: begin
+#			${3}
+#		end
+#		default: begin
+#			${4}
+#		end
+#	endcase
+## Always block
+#snippet al
+#	always @(${1:/* sensitive list */}) begin
+#		${0}
+#	end
+## Module block
+#snippet mod
+#	module ${1:`vim_snippets#Filename('$1', 'name')`} (${2});
+#		${0}
+#	endmodule
+## For
+#snippet for
+#	for (int ${2:i} = 0; $2 < ${1:count}; $2${3:++}) begin
+#		${4}
+#	end
+## Forever
+#snippet forev
+#	forever begin
+#		${0}
+#	end
+## Function
+#snippet fun
+#	function ${1:void} ${2:name}(${3});
+#		${0}
+#	endfunction: $2
+## Task
+#snippet task
+#	task ${1:name}(${2});
+#		${0}
+#	endtask: $1
+## Initial 
+#snippet ini
+#	initial begin
+#		${0}
+#	end
+## typedef struct packed
+#snippet tdsp
+#	typedef struct packed {
+#		int ${2:data};
+#	} ${1:`vim_snippets#Filename('$1_t', 'name')`};
+## typedef eum
+#snippet tde
+#	typedef enum ${2:logic[15:0]}
+#	{
+#		${3:REG = 16'h0000}
+#	} ${1:my_dest_t};
+
+
+# if statement
+snippet if
+	if (${1}) begin
+		${0}
+	end
+# If/else statements
+snippet ife
+	if (${1}) begin
+		${2}
+	end
+	else begin
+		${3}
+	end
+# Else if statement
+snippet eif
+	else if (${1}) begin
+		${0}
+	end
+#Else statement
+snippet el
+	else begin
+		${0}
+	end
+# While statement
+snippet wh
+	while (${1}) begin
+		${0}
+	end
+# Repeat Loop
+snippet rep
+	repeat (${1}) begin
+		${0}
+	end
+# Case statement
+snippet case
+	case (${1:/* variable */})
+		${2:/* value */}: begin
+			${3}
+		end
+		default: begin
+			${4}
+		end
+	endcase
+# CaseZ statement
+snippet casez
+	casez (${1:/* variable */})
+		${2:/* value */}: begin
+			${3}
+		end
+		default: begin
+			${4}
+		end
+	endcase
+# Always block
+snippet al
+	always @(posedge i_clk or negedge i_rstn) begin
+		if(!i_rstn) begin
+			${1}
+		end else begin
+			${0}
+		end
+	end
+
+# Module block
+snippet mod
+	module ${0:`vim_snippets#Filename('$1', 'name')`} 
+	(
+	${1}
+	);
+		${2}
+	endmodule
+# For
+snippet for
+	for (int ${2:i} = 0; $2 < ${1:count}; $2${3:++}) begin
+		${4}
+	end
+# Forever
+snippet forev
+	forever begin
+		${0}
+	end
+# Function
+snippet fun
+	function ${1:void} ${2:name}(${3});
+		${0}
+	endfunction: $2
+# Task
+snippet task
+	task ${1:name}(${2});
+		${0}
+	endtask: $1
+# Initial 
+snippet ini
+	initial begin
+		${0}
+	end
+# typedef struct packed
+snippet tdsp
+	typedef struct packed {
+		int ${2:data};
+	} ${1:`vim_snippets#Filename('$1_t', 'name')`};
+# typedef eum
+snippet tde
+	typedef enum ${2:logic[15:0]}
+	{
+		${3:REG = 16'h0000}
+	} ${1:my_dest_t};
+# Module 
+snippet	md
+	module ${2:`vim_snippets#Filename('$1', 'name')`}
+	#(	
+		parameter	BW_DATA			= 32,
+		parameter	BW_ADDR			= 4,
+		parameter	BW_CTRL			= 4
+	)
+	(	
+		output reg	[BW_DATA-1:0]	o_data,
+		output reg					o_valid,
+		input		[BW_DATA-1:0]	i_data,
+		input		[BW_ADDR-1:0]	i_addr,
+		input		[BW_CTRL-1:0]	i_ctrl,
+		input						i_clk,
+		input						i_rstn
+	);
+
+	$1
+
+	endmodule
+# Always for Combinational Logic
+snippet alc
+	always @(*) begin
+		case (${1})
+			${0}
+		endcase
+	end
+
+# Test Bench Template
+
+snippet	tb
+	// --------------------------------------------------
+	//	Define Global Variables
+	// --------------------------------------------------
+	\`define	CLKFREQ		100		// Clock Freq. (Unit: MHz)
+	\`define	SIMCYCLE	\`NVEC	// Sim. Cycles
+	\`define BW_DATA		32		// Bitwidth of ~~
+	\`define BW_ADDR		5		// Bitwidth of ~~
+	\`define BW_CTRL		4		// Bitwidth of ~~
+	\`define NVEC		100		// # of Test Vector
+
+	// --------------------------------------------------
+	//	Includes
+	// --------------------------------------------------
+	\`include	"`expand('%:r:s?_tb??')`.v"
+
+	module ${2:`vim_snippets#Filename('$1', 'name')`};
+	// --------------------------------------------------
+	//	DUT Signals & Instantiate
+	// --------------------------------------------------
+	${1}
+
+	// ----------------------------------
+	// Clock
+	// ----------------------------------
+		always	#(500/\`CLKFREQ) i_clk = ~ i_clk;
+	
+	// ----------------------------------
+	// Tasks
+	// ----------------------------------
+		reg [8*32-1:0] 	taskState;
+	
+		task init;
+			begin
+				taskState	= "Init";
+				i_seq		= 0;
+				i_clk		= 0;
+				i_rstn		= 0;
+			end
+		endtask
+	
+		task resetReleaseAfterNCycles;
+			input	[9:0]	n;
+			begin
+				taskState		= "Reset_ON";
+				#(n*1000/\`CLKFREQ);
+				i_rstn = 1;
+				taskState		= "Reset_OFF";
+			end
+		endtask
+
+
+	// --------------------------------------------------
+	//	Test Stimulus
+	// --------------------------------------------------
+		integer		i, j;
+		initial begin
+			init();
+			resetNCycle(4);
+
+			for (i=0; i<\`SIMCYCLE; i++) begin
+				vecInsert(i);
+				vecVerify(i);
+			#(1000/\`CLKFREQ);
+			end
+			\$finish;
+		end
+
+	// --------------------------------------------------
+	//	Dump VCD
+	// --------------------------------------------------
+		reg	[8*32-1:0]	vcd_file;
+		initial begin
+			if (\$value\$plusargs("vcd_file=%s", vcd_file)) begin
+				\$dumpfile(vcd_file);
+				\$dumpvars;
+			end else begin
+				\$dumpfile("${3:`vim_snippets#Filename('$1', 'name')`}.vcd");
+				\$dumpvars;
+			end
+		end
+
+	endmodule
+
+# Tasks
+snippet utils
+	task dispAsFixedPoint;
+		input reg	[127:0]					sDescription;
+		input		[\`DEF_BIT_FULL-1:0]	bIn;
+		begin
+			\$display("[\%0s] Binary: \%b > Fixed Point Number: \%f", sDescription, bIn, bIn*(2.0**-(\`DEF_BIT_FRAC)));
+		end
+	endtask
+
+# Header Comment Template
+
+#TODO
+snippet co
+	// ==================================================
+	//	[ ZARAM OJT. ]
+	//	* Author		: Seok Jin Son (sonsj98@zaram.com)
+	//	* Filename		: ${0:`vim_snippets#Filename('$1', 'name')`}.v
+	//	* Date			: `strftime("%Y-%m-%d %H:%M:%S")`
+	//	* Description	:
+	// ==================================================
+	${1}
