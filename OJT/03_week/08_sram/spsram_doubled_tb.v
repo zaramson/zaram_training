@@ -29,9 +29,9 @@ module spsram_doubled_tb;
 	wire	[`BW_DATA-1:0]	o_data;
 	reg		[`BW_DATA-1:0]	i_data;
 	reg		[`BW_ADDR-1:0]	i_addr;
-	reg						i_wen;
+	//reg						i_wen;
 	reg						i_cen;
-	reg						i_oen;
+	//reg						i_oen;
 	reg						i_clk;
 
 	spsram_doubled
@@ -43,9 +43,9 @@ module spsram_doubled_tb;
 	.o_data				(o_data				),
 	.i_data				(i_data				),
 	.i_addr				(i_addr				),
-	.i_wen				(i_wen				),
+	//.i_wen				(i_wen				),
 	.i_cen				(i_cen				),
-	.i_oen				(i_oen				),
+	//.i_oen				(i_oen				),
 	.i_clk				(i_clk				)
 	);
 
@@ -65,9 +65,9 @@ module spsram_doubled_tb;
 			taskState	= "Init";
 			i_data  	= 0;
 			i_addr  	= 0;
-			i_wen		= 0;
+			//i_wen		= 0;
 			i_cen		= 0;
-			i_oen		= 0;
+			//i_oen		= 0;
 			i_clk		= 0;
 		end
 	endtask
@@ -80,9 +80,9 @@ module spsram_doubled_tb;
 				taskState	= "WR";
 				i_data		= ti_data;
 				i_addr		= ti_addr;
-				i_wen		= 1;
+				//i_wen		= 1;
 				i_cen		= 1;
-				i_oen		= 0;
+				//i_oen		= 0;
 			end
 		end
 	endtask
@@ -93,9 +93,9 @@ module spsram_doubled_tb;
 			@(negedge i_clk) begin
 				taskState	= "RD";
 				i_addr		= ti_addr;
-				i_wen		= 0;
+				//i_wen		= 0;
 				i_cen		= 1;
-				i_oen		= 1;
+				//i_oen		= 1;
 			end
 		end
 	endtask

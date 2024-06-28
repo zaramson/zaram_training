@@ -8,9 +8,9 @@
 
 module regfile 
 #(
-	parameter	BW_DATA	= 32,
-	parameter	BW_ADDR = 5,
-	parameter	MIMFILE = "regfile.mif"
+	parameter	MIF_FILE	= "regfile.mif",
+	parameter	BW_DATA		= 32,
+	parameter	BW_ADDR 	= 5
 )
 (
 	output	[BW_DATA-1:0]	o_rf_rd_data0,
@@ -28,6 +28,13 @@ module regfile
 	//Async. Read
 	assign	o_rf_rd_data0	= rf_arr[i_rf_rd_addr0];
 	assign	o_rf_rd_data1	= rf_arr[i_rf_rd_addr1];
+
+
+	`ifdef	MEM_INIT
+		initial begin
+			$readmemb(MIF_FILE, rf_arr);
+		end
+	`endif
 
 
 	always @(posedge i_clk) begin

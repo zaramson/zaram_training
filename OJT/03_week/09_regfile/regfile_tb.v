@@ -13,6 +13,7 @@
 `define	SIMCYCLE	2**`BW_ADDR	// Sim. Cycles
 `define BW_DATA		16			// Bitwidth of ~~
 `define BW_ADDR		4			// Bitwidth of ~~
+//`define MEM_INIT
 
 // --------------------------------------------------
 //	Includes
