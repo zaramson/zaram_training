@@ -17,9 +17,9 @@ module spsram_doubled
 	output	[BW_DATA-1:0]	o_data,
 	input	[BW_DATA-1:0]	i_data,
 	input	[BW_ADDR-1:0]	i_addr,
-	//input					i_wen,
+	input					i_wen,
 	input					i_cen,
-	//input					i_oen,
+	input					i_oen,
 	input					i_clk
 );
 	
@@ -33,8 +33,8 @@ module spsram_doubled
 	.o_data				(o_data				),
 	.i_data				(i_data				),
 	.i_addr				(i_addr[3:0]		),
-	.i_wen				(~i_addr[4]			),
-	.i_cen				(i_cen				),
+	.i_wen				(i_wen				),
+	.i_cen				(~i_addr[4]			),
 	.i_oen				(~i_addr[4]			),
 	.i_clk				(i_clk				)
 	);
@@ -49,8 +49,8 @@ module spsram_doubled
 	.o_data				(o_data				),
 	.i_data				(i_data				),
 	.i_addr				(i_addr[3:0]		),
-	.i_wen				(i_addr[4]			),
-	.i_cen				(i_cen				),
+	.i_wen				(i_wen				),
+	.i_cen				(i_addr[4]			),
 	.i_oen				(i_addr[4]			),
 	.i_clk				(i_clk				)
 	);

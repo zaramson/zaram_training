@@ -1,8 +1,8 @@
 // ==================================================
 //	[ ZARAM OJT. ]
 //	* Author		: Seok Jin Son (sonsj98@zaram.com)
-//	* Filename		: barrel_shifter_tb.v
-//	* Date			: 2024-07-01 10:16:33
+//	* Filename		: alu_tb.v
+//	* Date			: 2024-07-01 15:50:14
 //	* Description	:
 // ==================================================
 
@@ -10,27 +10,36 @@
 //	Define Global Variables
 // --------------------------------------------------
 `define	CLKFREQ		100		// Clock Freq. (Unit: MHz)
-`define	SIMCYCLE	3		// Sim. Cycles
+`define	SIMCYCLE	5		// Sim. Cycles
+`define BW_DATA		4
 
 // --------------------------------------------------
 //	Includes
 // --------------------------------------------------
-`include	"barrel_shifter.v"
+`include	"alu.v"
 
-module barrel_shifter_tb;
+module alu_tb;
 // --------------------------------------------------
 //	DUT Signals & Instantiate
 // --------------------------------------------------
-	wire	[7:0]	o_Y;
-	reg 	[7:0]	i_A;
-	reg		[2:0]	i_k;
+	wire	[`BW_DATA-1:0]	o_Y;
+	wire					o_Cout;
+	reg		[`BW_DATA-1:0]	i_A;
+	reg		[`BW_DATA-1:0]	i_B;
+	reg		[2:0]			i_F;
 
-	barrel_shifter
-	u_barrel_shifter(
+	alu
+	#(
+	.BW_DATA			(`BW_DATA			)
+	)
+	u_alu(
 	.o_Y				(o_Y				),
+	.o_Cout				(o_Cout				),
 	.i_A				(i_A				),
-	.i_k				(i_k				)
+	.i_B				(i_B				),
+	.i_F				(i_F				)
 	);
+
 
 
 // ----------------------------------
@@ -41,8 +50,9 @@ module barrel_shifter_tb;
 	task init;
 		begin
 			taskState	= "Init";
-			i_A			= 0;
-			i_k			= 0;
+			i_A  		= 0;
+			i_B  		= 0;
+			i_F			= 0;
 		end
 	endtask
 
@@ -55,74 +65,66 @@ module barrel_shifter_tb;
 
 		for (i=0; i<`SIMCYCLE; i++) begin
 			#(1000/`CLKFREQ);
-			taskState	= "ROTATE_0";
-			i_k[0]		= 0;
-			i_k[1]		= 0;
-			i_k[2]		= 0;
-			i_A			= $urandom;
+			taskState	= "A & B";
+            i_F	= 3'b000;
+			i_A	= $urandom;
+            i_B	= $urandom;
 		end
 
 		for (i=0; i<`SIMCYCLE; i++) begin
 			#(1000/`CLKFREQ);
-			taskState	= "ROTATE_1";
-			i_k[0]		= 1;
-			i_k[1]		= 0;
-			i_k[2]		= 0;
-			i_A			= $urandom;
+			taskState	= "A | B";
+            i_F	= 3'b001;
+			i_A	= $urandom;
+            i_B	= $urandom;
 		end
 
 		for (i=0; i<`SIMCYCLE; i++) begin
 			#(1000/`CLKFREQ);
-			taskState	= "ROTATE_2";
-			i_k[0]		= 0;
-			i_k[1]		= 1;
-			i_k[2]		= 0;
-			i_A			= $urandom;
+			taskState	= "A + B";
+            i_F	= 3'b010;
+			i_A	= $urandom;
+            i_B	= $urandom;
 		end
 
 		for (i=0; i<`SIMCYCLE; i++) begin
 			#(1000/`CLKFREQ);
-			taskState	= "ROTATE_3";
-			i_k[0]		= 1;
-			i_k[1]		= 1;
-			i_k[2]		= 0;
-			i_A			= $urandom;
+			taskState	= "not used";
+            i_F	= 3'b011;
+			i_A	= $urandom;
+            i_B	= $urandom;
 		end
 
 		for (i=0; i<`SIMCYCLE; i++) begin
 			#(1000/`CLKFREQ);
-			taskState	= "ROTATE_4";
-			i_k[0]		= 0;
-			i_k[1]		= 0;
-			i_k[2]		= 1;
-			i_A			= $urandom;
+			taskState	= "A & ~B";
+            i_F	= 3'b100;
+			i_A	= $urandom;
+            i_B	= $urandom;
 		end
 
 		for (i=0; i<`SIMCYCLE; i++) begin
 			#(1000/`CLKFREQ);
-			taskState	= "ROTATE_5";
-			i_k[0]		= 1;
-			i_k[1]		= 0;
-			i_k[2]		= 1;
-			i_A			= $urandom;
+			taskState	= "A | ~B";
+            i_F	= 3'b101;
+			i_A	= $urandom;
+            i_B	= $urandom;
 		end
 
 		for (i=0; i<`SIMCYCLE; i++) begin
 			#(1000/`CLKFREQ);
-			taskState	= "ROTATE_6";
-			i_k[0]		= 0;
-			i_k[1]		= 1;
-			i_k[2]		= 1;
-			i_A			= $urandom;
+			taskState	= "A - B";
+            i_F	= 3'b110;
+			i_A	= $urandom;
+            i_B	= $urandom;
 		end
 
 		for (i=0; i<`SIMCYCLE; i++) begin
 			#(1000/`CLKFREQ);
-			taskState	= "ROTATE_7";
-			i_k[0]		= 1;
-			i_k[1]		= 1;
-			i_k[2]		= 1;
-			i_A			= $urandom;
+			taskState	= "SLT";
+            i_F	= 3'b111;
+			i_A	= $urandom;
+            i_B	= $urandom;
 		end
 
 		$finish;
@@ -137,7 +139,7 @@ module barrel_shifter_tb;
 			$dumpfile(vcd_file);
 			$dumpvars;
 		end else begin
-			$dumpfile("barrel_shifter_tb.vcd");
+			$dumpfile("alu_tb.vcd");
 			$dumpvars;
 		end
 	end
