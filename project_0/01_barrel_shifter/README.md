@@ -54,10 +54,10 @@
 	
 		mux2
 		u_mux2_4R_2(
-		.o_out				(w_rotate_4[2]		),	
-		.i_sel				(i_k[2]				),	
-		.i_in0				(i_A[2]				),	
-		.i_in1				(i_A[6]				) 	
+		.o_out				(w_rotate_4[2]		),
+		.i_sel				(i_k[2]				),
+		.i_in0				(i_A[2]				),
+		.i_in1				(i_A[6]				) 
 		);
 	
 		mux2
@@ -268,7 +268,6 @@
 	endmodule
 
 ```
-```
 
 ### Testbench
 ```verilog
@@ -417,7 +416,6 @@
 		end
 	
 	endmodule
-```
 ```
 
 ## Simulation Result
