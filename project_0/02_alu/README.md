@@ -1,14 +1,14 @@
 # Gray Code Converter
 ## Operation Principle
 - Arithmetic Logic Unit (ALU)
-	-- F = 000 --> Y = A & B
-	-- F = 001 --> Y = A | B
-	-- F = 010 --> Y = A + B
-	-- F = 011 --> Y = not used
-	-- F = 100 --> Y = A & ~B
-	-- F = 101 --> Y = A | ~B
-	-- F = 110 --> Y = A - B
-	-- F = 111 --> Y = SLT
+	- F = 000 --> Y = A & B
+	- F = 001 --> Y = A | B
+	- F = 010 --> Y = A + B
+	- F = 011 --> Y = not used
+	- F = 100 --> Y = A & ~B
+	- F = 101 --> Y = A | ~B
+	- F = 110 --> Y = A - B
+	- F = 111 --> Y = SLT
 
 ## Verilog Code
 ###DUT
