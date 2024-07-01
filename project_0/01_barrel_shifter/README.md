@@ -283,7 +283,7 @@
 	//	Define Global Variables
 	// --------------------------------------------------
 	`define	CLKFREQ		100		// Clock Freq. (Unit: MHz)
-	`define	SIMCYCLE	10		// Sim. Cycles
+	`define	SIMCYCLE	3		// Sim. Cycles
 	
 	// --------------------------------------------------
 	//	Includes
