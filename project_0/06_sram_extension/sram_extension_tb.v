@@ -75,8 +75,8 @@ module sram_extension_tb;
 		begin
 			@(negedge i_clk) begin
 				taskState	= "WR";
-				i_data		= ti_data;
 				i_addr		= ti_addr;
+				i_data		= ti_data;
 				i_wen		= 1;
 				i_cen		= 1;
 				i_oen		= 0;
@@ -108,7 +108,8 @@ module sram_extension_tb;
 		#(4*1000/`CLKFREQ);
 
 		for (i=0; i<`SIMCYCLE; i++) begin
-			memWR(i, i);
+			j = $urandom;
+			memWR(i, j);
 		end
 		for (i=0; i<`SIMCYCLE; i++) begin
 			memRD(i);
