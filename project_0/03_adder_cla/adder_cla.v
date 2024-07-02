@@ -26,8 +26,8 @@ module adder_cla32
 	.i_Cin				(i_Cin				)
 	);
 
-	PG_adder4
-	u_PG_adder4_0(
+	PG_logic4
+	u_PG_logic4_0(
 	.o_Cout				(w_Cout[0]			),
 	.i_A				(i_A[3:0]			),
 	.i_B				(i_B[3:0]			),
@@ -43,8 +43,8 @@ module adder_cla32
 	.i_Cin				(w_Cout[0]			)
 	);
 
-	PG_adder4
-	u_PG_adder4_1(
+	PG_logic4
+	u_PG_logic4_1(
 	.o_Cout				(w_Cout[1]			),
 	.i_A				(i_A[7:4]			),
 	.i_B				(i_B[7:4]			),
@@ -60,8 +60,8 @@ module adder_cla32
 	.i_Cin				(w_Cout[1]			)
 	);
 
-	PG_adder4
-	u_PG_adder4_2(
+	PG_logic4
+	u_PG_logic4_2(
 	.o_Cout				(w_Cout[2]			),
 	.i_A				(i_A[11:8]			),
 	.i_B				(i_B[11:8]			),
@@ -77,8 +77,8 @@ module adder_cla32
 	.i_Cin				(w_Cout[2]			)
 	);
 
-	PG_adder4
-	u_PG_adder4_3(
+	PG_logic4
+	u_PG_logic4_3(
 	.o_Cout				(w_Cout[3]			),
 	.i_A				(i_A[15:12]			),
 	.i_B				(i_B[15:12]			),
@@ -94,8 +94,8 @@ module adder_cla32
 	.i_Cin				(w_Cout[3]			)
 	);
 
-	PG_adder4
-	u_PG_adder4_4(
+	PG_logic4
+	u_PG_logic4_4(
 	.o_Cout				(w_Cout[4]			),
 	.i_A				(i_A[19:16]			),
 	.i_B				(i_B[19:16]			),
@@ -111,8 +111,8 @@ module adder_cla32
 	.i_Cin				(w_Cout[4]			)
 	);
 
-	PG_adder4
-	u_PG_adder4_5(
+	PG_logic4
+	u_PG_logic4_5(
 	.o_Cout				(w_Cout[5]			),
 	.i_A				(i_A[23:20]			),
 	.i_B				(i_B[23:20]			),
@@ -128,8 +128,8 @@ module adder_cla32
 	.i_Cin				(w_Cout[5]			)
 	);
 
-	PG_adder4
-	u_PG_adder4_6(
+	PG_logic4
+	u_PG_logic4_6(
 	.o_Cout				(w_Cout[6]			),
 	.i_A				(i_A[27:24]			),
 	.i_B				(i_B[27:24]			),
@@ -145,8 +145,8 @@ module adder_cla32
 	.i_Cin				(w_Cout[6]			)
 	);
 
-	PG_adder4
-	u_PG_adder4_7(
+	PG_logic4
+	u_PG_logic4_7(
 	.o_Cout				(o_Cout				),
 	.i_A				(i_A[31:28]			),
 	.i_B				(i_B[31:28]			),
@@ -169,7 +169,7 @@ module full_adder4
 
 endmodule
 
-module PG_adder4
+module PG_logic4
 (
 	output			o_Cout,
 	input	[3:0]	i_A,
@@ -188,7 +188,7 @@ module PG_adder4
 	for (i=0; i<4; i=i+1) begin
 
 		assign	w_G[i] = i_A[i] & i_B[i];
-		assign	w_P[i] = i_A[i] | i_B[i];
+		assign	w_P[i] = i_A[i] ^ i_B[i];
 
 	end
 	endgenerate

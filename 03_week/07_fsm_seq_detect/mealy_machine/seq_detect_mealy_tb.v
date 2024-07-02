@@ -9,9 +9,9 @@
 // --------------------------------------------------
 //	Includes
 // --------------------------------------------------
-`include	"seq_detect_moore.v"
+`include	"seq_detect_mealy.v"
 
-module seq_detect_moore_tb;
+module seq_detect_mealy_tb;
 // --------------------------------------------------
 //	DUT Signals & Instantiate
 // --------------------------------------------------
@@ -20,8 +20,8 @@ module seq_detect_moore_tb;
 	reg				i_clk;
 	reg				i_rstn;
 
-	seq_detect_moore
-	u_seq_detect_moore(
+	seq_detect_mealy
+	u_seq_detect_mealy(
 	.o_out				(o_out				),
 	.i_seq				(i_seq				),
 	.i_clk				(i_clk				),
@@ -83,7 +83,7 @@ module seq_detect_moore_tb;
 			$dumpfile(vcd_file);
 			$dumpvars;
 		end else begin
-			$dumpfile("seq_detect_moore_tb.vcd");
+			$dumpfile("seq_detect_mealy_tb.vcd");
 			$dumpvars;
 		end
 	end

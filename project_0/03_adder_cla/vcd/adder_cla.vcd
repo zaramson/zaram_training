@@ -1,5 +1,5 @@
 $date
-	Mon Jul  1 15:23:57 2024
+	Tue Jul  2 16:18:29 2024
 $end
 $version
 	Icarus Verilog
@@ -24,7 +24,7 @@ $var wire 1 & i_Cin $end
 $var wire 7 , w_Cout [6:0] $end
 $var wire 32 - o_S [31:0] $end
 $var wire 1 " o_Cout $end
-$scope module u_PG_adder4_0 $end
+$scope module u_PG_logic4_0 $end
 $var wire 4 . i_A [3:0] $end
 $var wire 4 / i_B [3:0] $end
 $var wire 1 & i_Cin $end
@@ -42,7 +42,7 @@ $upscope $end
 $scope begin genblk1[3] $end
 $upscope $end
 $upscope $end
-$scope module u_PG_adder4_1 $end
+$scope module u_PG_logic4_1 $end
 $var wire 4 5 i_A [3:0] $end
 $var wire 4 6 i_B [3:0] $end
 $var wire 1 7 i_Cin $end
@@ -60,7 +60,7 @@ $upscope $end
 $scope begin genblk1[3] $end
 $upscope $end
 $upscope $end
-$scope module u_PG_adder4_2 $end
+$scope module u_PG_logic4_2 $end
 $var wire 4 = i_A [3:0] $end
 $var wire 4 > i_B [3:0] $end
 $var wire 1 ? i_Cin $end
@@ -78,7 +78,7 @@ $upscope $end
 $scope begin genblk1[3] $end
 $upscope $end
 $upscope $end
-$scope module u_PG_adder4_3 $end
+$scope module u_PG_logic4_3 $end
 $var wire 4 E i_A [3:0] $end
 $var wire 4 F i_B [3:0] $end
 $var wire 1 G i_Cin $end
@@ -96,7 +96,7 @@ $upscope $end
 $scope begin genblk1[3] $end
 $upscope $end
 $upscope $end
-$scope module u_PG_adder4_4 $end
+$scope module u_PG_logic4_4 $end
 $var wire 4 M i_A [3:0] $end
 $var wire 4 N i_B [3:0] $end
 $var wire 1 O i_Cin $end
@@ -114,7 +114,7 @@ $upscope $end
 $scope begin genblk1[3] $end
 $upscope $end
 $upscope $end
-$scope module u_PG_adder4_5 $end
+$scope module u_PG_logic4_5 $end
 $var wire 4 U i_A [3:0] $end
 $var wire 4 V i_B [3:0] $end
 $var wire 1 W i_Cin $end
@@ -132,7 +132,7 @@ $upscope $end
 $scope begin genblk1[3] $end
 $upscope $end
 $upscope $end
-$scope module u_PG_adder4_6 $end
+$scope module u_PG_logic4_6 $end
 $var wire 4 ] i_A [3:0] $end
 $var wire 4 ^ i_B [3:0] $end
 $var wire 1 _ i_Cin $end
@@ -150,7 +150,7 @@ $upscope $end
 $scope begin genblk1[3] $end
 $upscope $end
 $upscope $end
-$scope module u_PG_adder4_7 $end
+$scope module u_PG_logic4_7 $end
 $var wire 4 e i_A [3:0] $end
 $var wire 4 f i_B [3:0] $end
 $var wire 1 g i_Cin $end
@@ -367,26 +367,24 @@ b1 3"
 1?
 1w
 1I
-1b
 1a
-1i
 b1001010 ,
 18
 19
 b1 4
-b1001 3
+b1000 3
+b100 ;
 b1000 <
-b1100 ;
 b1001 C
 b100 L
-b1101 K
+b1001 K
 b1110 S
 b10 \
-b110 [
+b100 [
 b101 d
-b1111 c
+b1010 c
 b1 k
-b1111 j
+b1110 j
 1t
 1~
 1/"
@@ -454,37 +452,33 @@ b1111 $"
 1J
 0?
 0w
-1B
 1A
 0I
 1_
 1-"
 0`
 12
-0i
 08
 b101100 ,
 1X
 0a
 09
 1Y
-0b
-b1111 K
+b1010 j
 b0 4
 b1111 3
-b0 <
 b10 ;
+b0 <
 b110 D
-b1111 C
 b0 L
+b1111 K
 b11 T
-b1011 S
+b1000 S
+b10 [
 b1000 \
-b1010 [
 b0 d
 b111 c
 b0 k
-b1010 j
 1y
 1*"
 04"
@@ -545,31 +539,30 @@ b10 )
 0O
 0#"
 1"
-0B
 0H
 0_
 0-"
 1h
-02
 0X
 11
+02
 0J
 0Y
 17
 1r
-b1011 3
-b1110 C
-b111 S
-b1011 [
+b100 S
 b1000 4
+b11 3
 b1001 ;
 b1100 D
+b10 C
 b100 L
-b110 K
+b10 K
 b0 \
+b1011 [
 b111 d
+b0 c
 b100 k
-b1110 j
 b101 ,
 10
 b1010 $"
@@ -641,17 +634,20 @@ b101001 ,
 1I
 1Y
 b1001 4
-b11 S
+b10 3
 b11 d
+b100 c
 b10 <
-b111 ;
-b1011 C
+b101 ;
 b1 D
+b1010 C
+b101 K
 b1000 L
-b1101 K
 b0 T
+b11 S
 b1000 \
-b1101 j
+b11 [
+b1001 j
 b101 n
 0y
 1~
@@ -701,11 +697,8 @@ b11 5"
 b100 )
 #90000
 b100 )"
-b100 $"
 1W
 1("
-1O
-1#"
 1P
 07
 0r
@@ -713,47 +706,38 @@ b100 $"
 1w
 1G
 1|
-1J
 0_
 0-"
 12"
 1g
 0"
-1H
 1Q
 00
 18
-1B
 1@
 0X
 b1011110 ,
 1`
 0h
-1I
-1R
 01
 19
-0:
 1A
 0Y
 1a
-1b
+b100 ;
+b1011 S
+b101 c
 b101 4
-b111 3
 b1010 <
-b1110 ;
-b1111 C
 b1100 D
-b1111 K
+b11 C
 b100 L
+b1011 K
 b100 T
-b1111 S
 b0 \
-b11 [
 b1010 d
-b1111 c
 b1 k
-b111 j
+b110 j
 1t
 1%"
 0o
@@ -828,32 +812,31 @@ b101 )
 0r
 0P
 0a
-0B
 0I
 b10 ,
 00
-0A
 0Q
 1"
+1J
 01
-0R
-0b
 1h
-02
-0i
+0A
+0B
 b10 <
-b1100 C
+b1100 ;
 b0 L
+b1111 K
 b0 4
 b1011 3
 b0 D
+b1100 C
+b1000 S
 b1 T
-b1001 S
 b111 [
-b1011 c
 b10 d
+b1001 c
 b100 k
-b1101 j
+b1001 j
 b0 s
 0y
 b1111 }
@@ -911,28 +894,26 @@ b1100 x
 0w
 08
 09
-1i
 1_
 1-"
 0J
 b100000 ,
 1X
 1Y
-1Z
-b1111 j
+b1001 ;
+b1 S
 b111 3
 b0 <
-b1001 ;
 b101 D
-b111 C
+b10 C
 b1011 K
 b10 T
-b11 S
+b101 [
 b1010 \
-b1111 [
+b10 c
 b101 d
-b111 c
 b1001 k
+b110 j
 1*"
 b1000 n
 b1001 s
@@ -1004,40 +985,33 @@ b111 )
 1P
 1@
 1I
-0Z
 12"
 1g
 18
 1Q
 1A
-1J
 b1011111 ,
 1`
 0"
-12
+02
 19
-1R
-1B
 1a
-0b
 0h
-0i
-b1111 3
+b1 ;
 b100 D
+b1011 S
+b101 c
 b101 4
+b1010 3
 b1010 <
-b1011 ;
-b1111 C
+b1011 C
 b100 L
-b1111 K
 b100 T
-b1111 S
-b0 \
 b1100 [
+b0 \
 b1000 d
-b1101 c
+b10 j
 b100 k
-b110 j
 1o
 1t
 1~
@@ -1103,32 +1077,29 @@ b1000 )
 0G
 0|
 0H
-1i
 0?
 0w
 0@
 0I
-02
 b1010001 ,
 08
 0A
 1"
-0J
 09
-0B
 1h
-b111 K
-b1011 3
+b11 j
 b1001 4
-b0 <
+b10 3
 b11 ;
+b0 <
 b10 D
-b11 C
+b1 C
 b10 L
+b101 K
 b1100 T
+b11 S
 b1010 [
 b1100 k
-b1111 j
 0~
 b100 s
 0t
@@ -1190,37 +1161,34 @@ b1001 )
 1G
 1|
 1X
-0"
 1@
-1Z
 07
 0r
 1Y
 02"
 0g
-0h
-1:
 1A
+0"
 00
 b110110 ,
 0`
-0i
-1B
+0h
 01
 0a
-b1111 ;
 b0 L
-b0 4
+b111 K
+b1011 [
+b1001 j
 b101 3
+b0 4
 b10 <
+b1101 ;
+b1011 C
 b100 D
-b1111 C
 b100 \
-b1111 [
+b10 c
 b100 d
-b110 c
 b10 k
-b1011 j
 1t
 1y
 1*"

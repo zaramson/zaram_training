@@ -1,28 +1,25 @@
 // ==================================================
 //	[ ZARAM OJT. ]
 //	* Author		: Seok Jin Son (sonsj98@zaram.com)
-//	* Filename		: spsram_doubled_tb.v
-//	* Date			: 2024-06-26 15:12:43
+//	* Filename		: sram_extension_tb.v
+//	* Date			: 2024-07-02 13:55:31
 //	* Description	:
 // ==================================================
-
 
 // --------------------------------------------------
 //	Define Global Variables
 // --------------------------------------------------
 `define	CLKFREQ		100		// Clock Freq. (Unit: MHz)
-`define	SIMCYCLE	32	// Sim. Cycles
-`define BW_DATA		32		// Bitwidth of ~~
-`define BW_ADDR		5		// Bitwidth of ~~
-
-`define SPSRAM_ASYNC
+`define	SIMCYCLE	100		// Sim. Cycles
+`define BW_DATA		64		// Bitwidth of ~~
+`define BW_ADDR		6		// Bitwidth of ~~
 
 // --------------------------------------------------
 //	Includes
 // --------------------------------------------------
-`include	"spsram_doubled.v"
+`include	"sram_extension.v"
 
-module spsram_doubled_tb;
+module sram_extension_tb;
 // --------------------------------------------------
 //	DUT Signals & Instantiate
 // --------------------------------------------------
@@ -34,12 +31,12 @@ module spsram_doubled_tb;
 	reg						i_oen;
 	reg						i_clk;
 
-	spsram_doubled
+	sram_extension
 	#(
 	.BW_DATA			(`BW_DATA			),
 	.BW_ADDR			(`BW_ADDR			)
 	)
-	u_spsram_doubled(
+	u_sram_extension(
 	.o_data				(o_data				),
 	.i_data				(i_data				),
 	.i_addr				(i_addr				),
@@ -49,11 +46,11 @@ module spsram_doubled_tb;
 	.i_clk				(i_clk				)
 	);
 
-
 // ----------------------------------
 // Clock
 // ----------------------------------
 	always	#(500/`CLKFREQ) i_clk = ~ i_clk;
+
 
 // ----------------------------------
 // Tasks
@@ -64,11 +61,11 @@ module spsram_doubled_tb;
 		begin
 			taskState	= "Init";
 			i_data  	= 0;
-			i_addr  	= 0;
-			i_wen		= 0;
-			i_cen		= 0;
-			i_oen		= 0;
-			i_clk		= 0;
+            i_addr  	= 0;
+            i_wen		= 0;
+            i_cen		= 0;
+            i_oen		= 0;
+            i_clk		= 0;
 		end
 	endtask
 
@@ -101,6 +98,7 @@ module spsram_doubled_tb;
 	endtask
 
 
+
 // --------------------------------------------------
 //	Test Stimulus
 // --------------------------------------------------
@@ -118,6 +116,7 @@ module spsram_doubled_tb;
 		$finish;
 	end
 
+
 // --------------------------------------------------
 //	Dump VCD
 // --------------------------------------------------
@@ -127,7 +126,7 @@ module spsram_doubled_tb;
 			$dumpfile(vcd_file);
 			$dumpvars;
 		end else begin
-			$dumpfile("spsram_doubled_tb.vcd");
+			$dumpfile("sram_extension_tb.vcd");
 			$dumpvars;
 		end
 	end

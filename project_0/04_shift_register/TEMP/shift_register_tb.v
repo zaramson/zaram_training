@@ -1,59 +1,49 @@
 // ==================================================
 //	[ ZARAM OJT. ]
 //	* Author		: Seok Jin Son (sonsj98@zaram.com)
-//	* Filename		: spsram_doubled_tb.v
-//	* Date			: 2024-06-26 15:12:43
+//	* Filename		: shift_register_tb.v
+//	* Date			: 2024-07-01 17:26:45
 //	* Description	:
 // ==================================================
-
 
 // --------------------------------------------------
 //	Define Global Variables
 // --------------------------------------------------
 `define	CLKFREQ		100		// Clock Freq. (Unit: MHz)
-`define	SIMCYCLE	32	// Sim. Cycles
-`define BW_DATA		32		// Bitwidth of ~~
-`define BW_ADDR		5		// Bitwidth of ~~
-
-`define SPSRAM_ASYNC
+`define	SIMCYCLE	20		// Sim. Cycles
+`define BW_DATA		8		// Bitwidth of ~~
 
 // --------------------------------------------------
 //	Includes
 // --------------------------------------------------
-`include	"spsram_doubled.v"
+`include	"shift_register.v"
 
-module spsram_doubled_tb;
+module shift_register_tb;
 // --------------------------------------------------
 //	DUT Signals & Instantiate
 // --------------------------------------------------
-	wire	[`BW_DATA-1:0]	o_data;
-	reg		[`BW_DATA-1:0]	i_data;
-	reg		[`BW_ADDR-1:0]	i_addr;
-	reg						i_wen;
-	reg						i_cen;
-	reg						i_oen;
-	reg						i_clk;
+	wire					o_Sout;
+	wire	[`BW_DATA-1:0]	o_Qout;
+	reg		[`BW_DATA-1:0] 	i_D;
+	reg						i_Load;
+	reg						i_Sin;
+	reg						i_Clk;
 
-	spsram_doubled
-	#(
-	.BW_DATA			(`BW_DATA			),
-	.BW_ADDR			(`BW_ADDR			)
-	)
-	u_spsram_doubled(
-	.o_data				(o_data				),
-	.i_data				(i_data				),
-	.i_addr				(i_addr				),
-	.i_wen				(i_wen				),
-	.i_cen				(i_cen				),
-	.i_oen				(i_oen				),
-	.i_clk				(i_clk				)
+	shift_register
+	u_shift_register(
+	.o_Sout				(o_Sout				),
+	.o_Qout				(o_Qout				),
+	.i_D				(i_D				),
+	.i_Load				(i_Load				),
+	.i_Sin				(i_Sin				),
+	.i_Clk				(i_Clk				)
 	);
 
 
 // ----------------------------------
 // Clock
 // ----------------------------------
-	always	#(500/`CLKFREQ) i_clk = ~ i_clk;
+	always	#(500/`CLKFREQ) i_Clk = ~ i_Clk;
 
 // ----------------------------------
 // Tasks
@@ -63,40 +53,10 @@ module spsram_doubled_tb;
 	task init;
 		begin
 			taskState	= "Init";
-			i_data  	= 0;
-			i_addr  	= 0;
-			i_wen		= 0;
-			i_cen		= 0;
-			i_oen		= 0;
-			i_clk		= 0;
-		end
-	endtask
-
-	task memWR;
-		input	[`BW_ADDR-1:0]	ti_addr;
-		input	[`BW_DATA-1:0]	ti_data;
-		begin
-			@(negedge i_clk) begin
-				taskState	= "WR";
-				i_data		= ti_data;
-				i_addr		= ti_addr;
-				i_wen		= 1;
-				i_cen		= 1;
-				i_oen		= 0;
-			end
-		end
-	endtask
-
-	task memRD;
-		input	[`BW_ADDR-1:0] ti_addr;
-		begin
-			@(negedge i_clk) begin
-				taskState	= "RD";
-				i_addr		= ti_addr;
-				i_wen		= 0;
-				i_cen		= 1;
-				i_oen		= 1;
-			end
+			i_D  		= 0;
+			i_Load 		= 0;
+			i_Sin		= 0;
+			i_Clk		= 0;
 		end
 	endtask
 
@@ -107,13 +67,27 @@ module spsram_doubled_tb;
 	integer		i, j;
 	initial begin
 		init();
-		#(4*1000/`CLKFREQ);
 
 		for (i=0; i<`SIMCYCLE; i++) begin
-			memWR(i, i);
+			#(1000/`CLKFREQ);
+			taskState	= "Serial-to-Parallel";
+			i_Load 		= 0;
+			i_D			= $urandom;
+			i_Sin		= $urandom;
 		end
+
+			#(1000/`CLKFREQ);
+			taskState	= "Input Parallel Data";
+			i_Load 		= 1;
+			i_D			= $urandom;
+			i_Sin		= $urandom;
+
 		for (i=0; i<`SIMCYCLE; i++) begin
-			memRD(i);
+			#(1000/`CLKFREQ);
+			taskState	= "Parallel-to-Serial";
+			i_Load 		= 0;
+			i_D			= $urandom;
+			i_Sin		= $urandom;
 		end
 		$finish;
 	end
@@ -127,7 +101,7 @@ module spsram_doubled_tb;
 			$dumpfile(vcd_file);
 			$dumpvars;
 		end else begin
-			$dumpfile("spsram_doubled_tb.vcd");
+			$dumpfile("shift_register_tb.vcd");
 			$dumpvars;
 		end
 	end

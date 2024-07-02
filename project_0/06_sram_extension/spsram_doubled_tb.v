@@ -11,7 +11,7 @@
 //	Define Global Variables
 // --------------------------------------------------
 `define	CLKFREQ		100		// Clock Freq. (Unit: MHz)
-`define	SIMCYCLE	32	// Sim. Cycles
+`define	SIMCYCLE	32		// Sim. Cycles
 `define BW_DATA		32		// Bitwidth of ~~
 `define BW_ADDR		5		// Bitwidth of ~~
 

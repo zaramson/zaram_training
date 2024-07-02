@@ -5,6 +5,10 @@
 	- G[N-1]	= B[N-1]
 	- G[i]		= B[i+1] ^ B[i]
 
+- Gray -> Bin
+	- B[N-1]	= G[N-1]
+	- B[i]		= B[i+1] ^ G[i]
+
 
 ## Verilog Code
 ###DUT

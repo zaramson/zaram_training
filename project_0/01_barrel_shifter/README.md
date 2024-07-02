@@ -1,4 +1,4 @@
-# Gray Code Converter
+# Barrel Shifter
 ## Operation Principle
 - Right rotate shifter
 	- i_k[2] = 1 --> right rotate +4		

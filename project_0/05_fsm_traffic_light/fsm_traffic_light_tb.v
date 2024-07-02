@@ -1,52 +1,49 @@
 // ==================================================
 //	[ ZARAM OJT. ]
 //	* Author		: Seok Jin Son (sonsj98@zaram.com)
-//	* Filename		: spsram_doubled_tb.v
-//	* Date			: 2024-06-26 15:12:43
+//	* Filename		: fsm_traffic_light_tb.v
+//	* Date			: 2024-07-02 11:39:35
 //	* Description	:
 // ==================================================
-
 
 // --------------------------------------------------
 //	Define Global Variables
 // --------------------------------------------------
 `define	CLKFREQ		100		// Clock Freq. (Unit: MHz)
-`define	SIMCYCLE	32	// Sim. Cycles
-`define BW_DATA		32		// Bitwidth of ~~
-`define BW_ADDR		5		// Bitwidth of ~~
+`define	SIMCYCLE	50		// Sim. Cycles
+`define DEBUG
 
-`define SPSRAM_ASYNC
 
 // --------------------------------------------------
 //	Includes
 // --------------------------------------------------
-`include	"spsram_doubled.v"
+`include	"fsm_traffic_light.v"
 
-module spsram_doubled_tb;
+module fsm_traffic_light_tb;
 // --------------------------------------------------
 //	DUT Signals & Instantiate
 // --------------------------------------------------
-	wire	[`BW_DATA-1:0]	o_data;
-	reg		[`BW_DATA-1:0]	i_data;
-	reg		[`BW_ADDR-1:0]	i_addr;
-	reg						i_wen;
-	reg						i_cen;
-	reg						i_oen;
-	reg						i_clk;
+	wire		[1:0]	o_LA;
+	wire		[1:0]	o_LB;
+	wire				o_M;
+	reg					i_TA;
+	reg					i_TB;
+	reg					i_P;
+	reg					i_R;
+	reg					i_clk;
+	reg					i_rstn;
 
-	spsram_doubled
-	#(
-	.BW_DATA			(`BW_DATA			),
-	.BW_ADDR			(`BW_ADDR			)
-	)
-	u_spsram_doubled(
-	.o_data				(o_data				),
-	.i_data				(i_data				),
-	.i_addr				(i_addr				),
-	.i_wen				(i_wen				),
-	.i_cen				(i_cen				),
-	.i_oen				(i_oen				),
-	.i_clk				(i_clk				)
+	fsm_traffic_light
+	u_fsm_traffic_light(
+	.o_LA				(o_LA				),
+	.o_LB				(o_LB				),
+	.o_M				(o_M				),
+	.i_TA				(i_TA				),
+	.i_TB				(i_TB				),
+	.i_P				(i_P				),
+	.i_R				(i_R				),
+	.i_clk				(i_clk				),
+	.i_rstn				(i_rstn				)
 	);
 
 
@@ -63,40 +60,22 @@ module spsram_doubled_tb;
 	task init;
 		begin
 			taskState	= "Init";
-			i_data  	= 0;
-			i_addr  	= 0;
-			i_wen		= 0;
-			i_cen		= 0;
-			i_oen		= 0;
+			i_TA		= 0;
+			i_TB		= 0;
+			i_P			= 0;
+			i_R			= 0;
 			i_clk		= 0;
+			i_rstn		= 0;
 		end
 	endtask
 
-	task memWR;
-		input	[`BW_ADDR-1:0]	ti_addr;
-		input	[`BW_DATA-1:0]	ti_data;
+	task resetNCycle;
+		input	[9:0]	n;
 		begin
-			@(negedge i_clk) begin
-				taskState	= "WR";
-				i_data		= ti_data;
-				i_addr		= ti_addr;
-				i_wen		= 1;
-				i_cen		= 1;
-				i_oen		= 0;
-			end
-		end
-	endtask
-
-	task memRD;
-		input	[`BW_ADDR-1:0] ti_addr;
-		begin
-			@(negedge i_clk) begin
-				taskState	= "RD";
-				i_addr		= ti_addr;
-				i_wen		= 0;
-				i_cen		= 1;
-				i_oen		= 1;
-			end
+			taskState		= "Reset_ON";
+			#(n*1000/`CLKFREQ);
+			i_rstn = 1;
+			taskState		= "Reset_OFF";
 		end
 	endtask
 
@@ -107,13 +86,14 @@ module spsram_doubled_tb;
 	integer		i, j;
 	initial begin
 		init();
-		#(4*1000/`CLKFREQ);
+		resetNCycle(4);
 
 		for (i=0; i<`SIMCYCLE; i++) begin
-			memWR(i, i);
-		end
-		for (i=0; i<`SIMCYCLE; i++) begin
-			memRD(i);
+			i_TA	= $urandom_range(0,1);
+			i_TB	= $urandom_range(0,1);
+			i_P		= $urandom_range(0,1);
+			i_R		= $urandom_range(0,1);
+			#(1000/`CLKFREQ);
 		end
 		$finish;
 	end
@@ -127,7 +107,7 @@ module spsram_doubled_tb;
 			$dumpfile(vcd_file);
 			$dumpvars;
 		end else begin
-			$dumpfile("spsram_doubled_tb.vcd");
+			$dumpfile("fsm_traffic_light_tb.vcd");
 			$dumpvars;
 		end
 	end

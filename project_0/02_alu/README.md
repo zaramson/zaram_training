@@ -1,6 +1,6 @@
-# Gray Code Converter
+# ALU
 ## Operation Principle
-- Arithmetic Logic Unit (ALU)
+- Arithmetic Logic Unit Function 
 	- F = 000 --> Y = A & B
 	- F = 001 --> Y = A | B
 	- F = 010 --> Y = A + B
