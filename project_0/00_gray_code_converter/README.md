@@ -94,7 +94,7 @@
 	// --------------------------------------------------
 	//	DUT Signals & Instantiate
 	// --------------------------------------------------
-		wire		[`BW_DATA-1:0] o_gray;
+		wire	[`BW_DATA-1:0] o_gray;
 		reg		[`BW_DATA-1:0] i_binary;
 		wire	[`BW_DATA-1:0] o_binary;
 	
