@@ -7,7 +7,7 @@
 	- First CLK cycle i_Load = 1, Other cycle i_Load = 0
 
 
-![Waveform0](./32shift_register.png)
+![Waveform0](./image/32shift_register.png)
 
 
 ## Verilog Code
@@ -246,10 +246,10 @@
 - Serial-to-Parallel
 
 
-![Waveform0](./shift_register_serial_to_parallel.png)
+![Waveform0](./image/shift_register_serial_to_parallel.png)
 
 
 - Parallel-to-Serial 
 
 
-![Waveform0](./shift_register_parallel_to_serial.png)
+![Waveform0](./image/shift_register_parallel_to_serial.png)
