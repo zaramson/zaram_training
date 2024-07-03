@@ -2,7 +2,7 @@
 
 set timeout -1
 
-spwan git add .; git commit -m 'comment'; git push -u origin +master
+spawn bash -c gitpush
 expect "Username for 'https://github.com':"
 #send "zaram_training\r"
 
