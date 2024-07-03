@@ -33,7 +33,7 @@ module barrel_shifter
 			.o_out				(w_rotate_4[i]		),	
 			.i_sel				(i_k[2]				),	
 			.i_in0				(i_A[i]				),	
-			.i_in1				(i_A[i+4]				) 	
+			.i_in1				(i_A[i+4]			) 	
 			);
 		end
 
@@ -43,7 +43,7 @@ module barrel_shifter
 			.o_out				(w_rotate_4[i]		),	
 			.i_sel				(i_k[2]				),	
 			.i_in0				(i_A[i]				),	
-			.i_in1				(i_A[i-4]				) 	
+			.i_in1				(i_A[i-4]			) 	
 			);
 		end
 
@@ -61,7 +61,7 @@ module barrel_shifter
 			.o_out				(w_rotate_2[j]		),	
 			.i_sel				(i_k[1]				),	
 			.i_in0				(w_rotate_4[j]		),	
-			.i_in1				(w_rotate_4[j+2]		) 	
+			.i_in1				(w_rotate_4[j+2]	) 	
 			);
 		end
 
@@ -71,7 +71,7 @@ module barrel_shifter
 			.o_out				(w_rotate_2[j]		),	
 			.i_sel				(i_k[1]				),	
 			.i_in0				(w_rotate_4[j]		),	
-			.i_in1				(w_rotate_4[j-6]		) 	
+			.i_in1				(w_rotate_4[j-6]	) 	
 			);		
 		end
 
@@ -89,7 +89,7 @@ module barrel_shifter
 			.o_out				(o_Y[k]				),	
 			.i_sel				(i_k[1]				),	
 			.i_in0				(w_rotate_2[k]		),	
-			.i_in1				(w_rotate_2[k+1]		) 	
+			.i_in1				(w_rotate_2[k+1]	) 	
 			);
 		end
 
@@ -100,7 +100,7 @@ module barrel_shifter
 			.o_out				(o_Y[k]				),	
 			.i_sel				(i_k[1]				),	
 			.i_in0				(w_rotate_2[k]		),	
-			.i_in1				(w_rotate_2[k-7]		) 	
+			.i_in1				(w_rotate_2[k-7]	) 	
 			);
 		end
 	endgenerate
