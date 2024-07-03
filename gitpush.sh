@@ -2,13 +2,7 @@
 
 set timeout -1
 
-spawn git add .
-expect eof
-
-spawn git commit -m "comment"
-expect eof
-
-spawn git push -u origin +master
+spwan git add .; git commit -m 'comment'; git push -u origin +master
 expect "Username for 'https://github.com':"
 #send "zaram_training\r"
 
