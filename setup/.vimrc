@@ -4,7 +4,9 @@ set number
 set hlsearch
 "set nowrap
 
-set ts =4                 
+set	noexpandtab
+set ts =4    
+set	shiftwidth=4
 set ai  "autoindent
 set ruler "Display the number of lines in the lower right corner
 
