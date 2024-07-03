@@ -6,7 +6,7 @@ system git add .
 
 system git commit -m "comment"
 
-spawn git push -u origin +master
+#spawn git push -u origin +master
 #expect "Username for 'https://github.com':"
 #send "zaram_training\r"
 #
