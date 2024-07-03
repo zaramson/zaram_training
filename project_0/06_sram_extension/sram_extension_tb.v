@@ -63,7 +63,7 @@ module sram_extension_tb;
 			i_data  	= 0;
             i_addr  	= 0;
             i_wen		= 0;
-            //i_cen		= 0;	//don't need i_cen i_oen signal
+            //i_cen		= 0;	//TODO don't need input i_cen,i_oen
             //i_oen		= 0;
             i_clk		= 0;
 		end

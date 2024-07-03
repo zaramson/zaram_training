@@ -232,8 +232,8 @@ module sram_extension_tb;
 			i_data  	= 0;
             i_addr  	= 0;
             i_wen		= 0;
-            i_cen		= 0;
-            i_oen		= 0;
+            //i_cen		= 0;	//TODO don't need input i_cen,i_oen
+            //i_oen		= 0;
             i_clk		= 0;
 		end
 	endtask
@@ -247,8 +247,8 @@ module sram_extension_tb;
 				i_addr		= ti_addr;
 				i_data		= ti_data;
 				i_wen		= 1;
-				i_cen		= 1;
-				i_oen		= 0;
+				//i_cen		= 1;
+				//i_oen		= 0;
 			end
 		end
 	endtask
@@ -260,8 +260,8 @@ module sram_extension_tb;
 				taskState	= "RD";
 				i_addr		= ti_addr;
 				i_wen		= 0;
-				i_cen		= 1;
-				i_oen		= 1;
+				//i_cen		= 1;
+				//i_oen		= 1;
 			end
 		end
 	endtask
