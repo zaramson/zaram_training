@@ -3,7 +3,8 @@
 - 32-bit Carry-Lookahead Adder
 	- 32bit CLA = 8 x 4bit CLA
 	- 4bit CLA = 4bit FA + 4bit PG logic 
-		- G = A & B   P = A ^ B
+		- G = A & B
+		- P = A ^ B
 
 ![Waveform0](./32CLA.png)	
 
