@@ -123,7 +123,7 @@ module PG_adder
 		for (i=0; i<4; i=i+1) begin
 
 			assign	w_G[i] = i_A[i] & i_B[i];
-			assign	w_P[i] = i_A[i] | i_B[i];
+			assign	w_P[i] = i_A[i] ^ i_B[i];
 
 		end
 	endgenerate
