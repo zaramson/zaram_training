@@ -143,7 +143,7 @@ module gray_code_converter_tb;
 		for (i=0; i<`SIMCYCLE; i++) begin
 		#(1000/`CLKFREQ);
 		taskState	= "Verify";
-		i_binary = $urandom;
+		i_binary	= $urandom;
 		end
 		$finish;
 	end
