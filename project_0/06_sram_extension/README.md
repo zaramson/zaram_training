@@ -9,6 +9,7 @@
 
 - SRAM Extension
 	- (BW_DATA = 64 & BW_ADDR = 6) = (BW_DATA = 32 & BW_ADDR = 4) x 8
+	- i_addr[5],i_addr[4] --> control i_cen,i_oen
 
 
 ## Verilog Code

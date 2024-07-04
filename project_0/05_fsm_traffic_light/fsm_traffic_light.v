@@ -67,12 +67,8 @@ module fsm_traffic_light
 	//'Output' Comb. Logic
 	always @(*) begin
 		case(M_cState)
-			MS0	:	begin
-				o_M = 1'b0;
-			end
-			LS1	:	begin
-				o_M = 1'b1;
-			end
+			MS0	: o_M = 1'b0;
+			LS1	: o_M = 1'b1;
 		endcase
 	end
 
