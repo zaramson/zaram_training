@@ -1,23 +1,23 @@
 // ==================================================
-//	[ ZARAM OJT. ]
-//	* Author		: Seok Jin Son (sonsj98@zaram.com)
+//	[ VLSISYS Lab. ]
+//	* Author		: Woong Choi (woongchoi@sm.ac.kr)
 //	* Filename		: riscv_configs.v
-//	* Date			: 2024-07-18 17:33:21
-//	* Description	:
+//	* Description	: 
 // ==================================================
-
 
 // --------------------------------------------------
 //	RISC-V Integer Bit & Memory Specification
 // --------------------------------------------------
+`define	DEBUG
 `define	XLEN				32
-`define	DMEM_ADDR_BIT		8
-`define	IMEM_ADDR_BIT		8
+`define	DMEM_ADDR_BIT		16
+`define	IMEM_ADDR_BIT		16
 
 `define	DMEM_INIT
-`define	DMEM_INIT_FILE		"riscv_dmem.mif"
 `define	IMEM_INIT
-`define	IMEM_INIT_FILE		"riscv_imem.mif"
+
+//`define	DMEM_INIT_FILE		"/home/woong/projects/verilog_tutorials/RV32I/core/common/riscv_dmem.mif"
+//`define	IMEM_INIT_FILE		"/home/woong/projects/verilog_tutorials/RV32I/core/common/riscv_imem.mif"
 
 // --------------------------------------------------
 //	ALU (Arithmetic & Logical Unit)
@@ -33,6 +33,7 @@
 `define	ALU_CTRL_SRA		4'b1101	// Shift Right Logical / Arithmetic
 `define	ALU_CTRL_SLT		4'b0010	// Set on Less Than
 `define	ALU_CTRL_SLTU		4'b0011	// Set on Less Than Unsigned
+`define	ALU_CTRL_NOP		4'b1111	// No Operation
 
 // --------------------------------------------------
 // Instruction opcodes
@@ -46,11 +47,9 @@
 `define	OPCODE_I_JALR		7'b1100111	//	J-Type, x[rd] = pc + 4; pc = (x[rs1] + sext(offset)) & ~1
 `define	OPCODE_U_LUI		7'b0110111	//	U-Type, x[rd] = sext(imm[31:12] << 12)
 `define	OPCODE_U_AUIPC		7'b0010111	//	U-Type, x[rd] = pc + sext(imm[31:12] << 12)
-//`define	OPCODE_I_FENCE		7'b0001111	//	I-Type, 
-//`define	OPCODE_I_SYSTEM		7'b1110011	//	I-Type, 
 
 // --------------------------------------------------
-//	Source Immidiate
+//	Source Immediate
 // --------------------------------------------------
 `define	SRC_IMM_R			3'b000
 `define	SRC_IMM_I			3'b001
@@ -84,16 +83,6 @@
 `define	SRC_ALU_B_IMM		1'b1
 
 // --------------------------------------------------
-// Funct3 for Branch
-// --------------------------------------------------
-`define FUNCT3_BRANCH_BEQ	3'b000
-`define FUNCT3_BRANCH_BNE	3'b001
-`define FUNCT3_BRANCH_BLT	3'b100
-`define FUNCT3_BRANCH_BGE	3'b101
-`define FUNCT3_BRANCH_BLTU	3'b110
-`define FUNCT3_BRANCH_BGEU	3'b111
-
-// --------------------------------------------------
 // Funct3 for ALU
 // --------------------------------------------------
 `define	FUNCT3_ALU_ADD_SUB	3'b000
@@ -104,3 +93,22 @@
 `define	FUNCT3_ALU_SRL_SRA	3'b101
 `define	FUNCT3_ALU_SLT		3'b010
 `define	FUNCT3_ALU_SLTU		3'b011
+
+// --------------------------------------------------
+// Funct3 for Branch
+// --------------------------------------------------
+`define FUNCT3_BRANCH_BEQ	3'b000
+`define FUNCT3_BRANCH_BNE	3'b001
+`define FUNCT3_BRANCH_BLT	3'b100
+`define FUNCT3_BRANCH_BGE	3'b101
+`define FUNCT3_BRANCH_BLTU	3'b110
+`define FUNCT3_BRANCH_BGEU	3'b111
+
+// --------------------------------------------------
+// Funct3 for LOAD/STORE
+// --------------------------------------------------
+`define	FUNCT3_MEM_BYTE		3'b000
+`define	FUNCT3_MEM_HALF		3'b001
+`define	FUNCT3_MEM_WORD		3'b010
+`define	FUNCT3_MEM_BYTEU	3'b100
+`define	FUNCT3_MEM_HALFU	3'b101

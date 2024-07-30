@@ -1,13 +1,13 @@
 // ==================================================
-//	[ ZARAM OJT. ]
-//	* Author		: Seok Jin Son (sonsj98@zaram.com)
+//	[ VLSISYS Lab. ]
+//	* Author		: Woong Choi (woongchoi@sm.ac.kr)
 //	* Filename		: riscv_regfile.v
-//	* Date			: 2024-07-18 17:34:42
-//	* Description	:
+//	* Description	: Register File for RV32I
 // ==================================================
 
-
+`ifndef		NOINC
 `include	"riscv_configs.v"
+`endif
 
 module riscv_regfile
 (

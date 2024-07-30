@@ -1,13 +1,13 @@
 // ==================================================
-//	[ ZARAM OJT. ]
-//	* Author		: Seok Jin Son (sonsj98@zaram.com)
+//	[ VLSISYS Lab. ]
+//	* Author		: Woong Choi (woongchoi@sm.ac.kr)
 //	* Filename		: riscv_register.v
-//	* Date			: 2024-07-18 17:35:08
-//	* Description	:
+//	* Description	: Rigister for PC & Pipelining
 // ==================================================
 
-
+`ifndef		NOINC
 `include	"riscv_configs.v"
+`endif
 
 module riscv_register
 #(

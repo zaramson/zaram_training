@@ -1,13 +1,13 @@
 // ==================================================
-//	[ ZARAM OJT. ]
-//	* Author		: Seok Jin Son (sonsj98@zaram.com)
+//	[ VLSISYS Lab. ]
+//	* Author		: Woong Choi (woongchoi@sm.ac.kr)
 //	* Filename		: riscv_dmem.v
-//	* Date			: 2024-07-18 17:33:32
-//	* Description	:
+//	* Description	: Data Memory
 // ==================================================
 
-
+`ifndef		NOINC
 `include	"riscv_configs.v"
+`endif
 
 module riscv_dmem
 (	
@@ -22,11 +22,15 @@ module riscv_dmem
 	reg			[`XLEN-1:0]	dmem_arr[0:2**(`DMEM_ADDR_BIT-2)-1];
 
 `ifdef	DMEM_INIT
-	initial		$readmemh(`DMEM_INIT_FILE, dmem_arr);
+	reg	[8*128-1:0] FILE_DATA_MIF;
+	initial	begin
+		$value$plusargs("data_mif=%s", FILE_DATA_MIF);
+		$readmemh(FILE_DATA_MIF, dmem_arr);
+	end
 `endif
 
 	//	Memory Read (output is not switching during write)
-	assign		o_dmem_data = (i_dmem_wr_en) ? o_dmem_data : dmem_arr[i_dmem_addr];
+	assign		o_dmem_data = dmem_arr[i_dmem_addr];
 
 	//	Memory Write (to support sb, sh, sw)
 	//		- i_dmem_byte_sel = sb: 4'b0001, sh: 4'b0011, sw: 4'b1111

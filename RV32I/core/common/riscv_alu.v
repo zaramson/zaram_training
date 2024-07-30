@@ -1,12 +1,13 @@
 // ==================================================
-//	[ ZARAM OJT. ]
-//	* Author		: Seok Jin Son (sonsj98@zaram.com)
+//	[ VLSISYS Lab. ]
+//	* Author		: Woong Choi (woongchoi@sm.ac.kr)
 //	* Filename		: riscv_alu.v
-//	* Date			: 2024-07-18 17:32:51
-//	* Description	:
+//	* Description	: ALU
 // ==================================================
 
+`ifndef		NOINC
 `include	"riscv_configs.v"
+`endif
 
 module riscv_alu
 (	
@@ -14,7 +15,7 @@ module riscv_alu
 	output						o_alu_zero,
 	input		[`XLEN-1:0]		i_alu_a,
 	input		[`XLEN-1:0]		i_alu_b,
-	input		[      4:0]		i_alu_ctrl
+	input		[      3:0]		i_alu_ctrl
 );
 
 	always @(*) begin
@@ -27,8 +28,9 @@ module riscv_alu
 			`ALU_CTRL_SLL	:	o_alu_result = i_alu_a << i_alu_b[4:0];
 			`ALU_CTRL_SRL	:	o_alu_result = i_alu_a >> i_alu_b[4:0];
 			`ALU_CTRL_SRA	:	o_alu_result = $signed(i_alu_a) >>> $signed(i_alu_b[4:0]);
-			`ALU_CTRL_SLT	:	o_alu_result = $signed(i_alu_a) < $signed(i_alu_b);
-			`ALU_CTRL_SLTU	:	o_alu_result = i_alu_a <  i_alu_b;
+			`ALU_CTRL_SLT	:	o_alu_result = ($signed(i_alu_a) < $signed(i_alu_b)) ? 32'd1 :32'd0;
+			`ALU_CTRL_SLTU	:	o_alu_result = (i_alu_a < i_alu_b) ? 32'd1 : 32'd0;
+			default			:	o_alu_result = 32'dx;
 		endcase
 	end
 

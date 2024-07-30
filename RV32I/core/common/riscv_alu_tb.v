@@ -1,11 +1,9 @@
 // ==================================================
-//	[ ZARAM OJT. ]
-//	* Author		: Seok Jin Son (sonsj98@zaram.com)
+//	[ VLSISYS Lab. ]
+//	* Author		: Woong Choi (woongchoi@sm.ac.kr)
 //	* Filename		: riscv_alu_tb.v
-//	* Date			: 2024-07-18 17:33:03
-//	* Description	:
+//	* Description	: 
 // ==================================================
-
 
 // --------------------------------------------------
 //	Define Global Variables

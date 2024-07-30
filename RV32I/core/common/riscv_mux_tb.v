@@ -1,11 +1,9 @@
 // ==================================================
-//	[ ZARAM OJT. ]
-//	* Author		: Seok Jin Son (sonsj98@zaram.com)
+//	[ VLSISYS Lab. ]
+//	* Author		: Woong Choi (woongchoi@sm.ac.kr)
 //	* Filename		: riscv_mux_tb.v
-//	* Date			: 2024-07-18 17:34:32
-//	* Description	:
+//	* Description	: 
 // ==================================================
-
 
 // --------------------------------------------------
 //	Define Global Variables
