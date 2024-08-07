@@ -12,7 +12,7 @@
 `define	SIMCYCLE	`NVEC	// Sim. Cycles
 `define NVEC		200		// # of Test Vector
 `define	IMEM_INIT
-`define	IMEM_INIT_FILE		"/home/woong/projects/verilog_tutorials/RV32I/core/singlecycle/riscv_program.mif"
+`define	IMEM_INIT_FILE		"/home/sonseokjin/zaram_training/RV32I/core/singlecycle/riscvtest.txt"
 `define NOINC
 `define DEBUG
 
