@@ -181,18 +181,18 @@ module riscv_pipeline_datapath
 
 	riscv_fd_register
 	#(
-		.REGISTER_INIT		(REGISTER_INIT			)
+		.REGISTER_INIT		(REGISTER_INIT		)
 	)
 	u_riscv_fd_register(
-	.o_fd_register_instr	(instr_d		),
-	.o_fd_register_pc		(pc_d			),
-	.o_fd_register_pcplus4	(pcplus4_d		),
-	.i_fd_register_instr	(i_dp_instr		),
-	.i_fd_register_pc		(o_dp_pc		),
-	.i_fd_register_pcplus4	(pc_plus_4		),
-	.i_fd_register_en		(stall_f		),
-	.i_clk					(i_clk			),
-	.i_rstn					(flush_d		)
+		.o_fd_register_instr	(instr_d		),
+		.o_fd_register_pc		(pc_d			),
+		.o_fd_register_pcplus4	(pcplus4_d		),
+		.i_fd_register_instr	(i_dp_instr		),
+		.i_fd_register_pc		(o_dp_pc		),
+		.i_fd_register_pcplus4	(pc_plus_4		),
+		.i_fd_register_en		(stall_f		),
+		.i_clk					(i_clk			),
+		.i_rstn					(flush_d		)
 	);
 
 
@@ -232,48 +232,48 @@ module riscv_pipeline_datapath
 
 	riscv_de_register
 	#(
-	.REGISTER_INIT				(REGISTER_INIT				)
+	.REGISTER_INIT				(REGISTER_INIT			)
 	)
 	u_riscv_de_register(
-	.o_de_register_src_pc		(src_pc_e      				),
-	.o_de_register_src_imm		(src_imm_e     				),
-	.o_de_register_src_rd		(src_rd_e      				),
-	.o_de_register_src_alu_a	(src_alu_a_e   				),
-	.o_de_register_src_alu_b	(src_alu_b_e   				),
-	.o_de_register_reg_wr_en	(reg_wr_en_e   				),
-	.o_de_register_mem_wr_en	(mem_wr_en_e   				),
-	.o_de_register_mem_byte_sel	(mem_byte_sel_e				),
-	.o_de_register_alu_ctrl		(alu_ctrl_e    				),
-	.o_de_register_rs1_data		(rs1_data_e    				),
-	.o_de_register_rs2_data		(rs2_data_e    				),
-	.o_de_register_pc			(pc_e          				),
-	.o_de_register_rs1_addr		(rs1_addr_e    				),
-	.o_de_register_rs2_addr		(rs2_addr_e    				),
-	.o_de_register_rd_addr		(rd_addr_e     				),
-	.o_de_register_func3		(func3_e       				),
-	.o_de_register_imm_ext		(imm_ext_e     				),
-	.o_de_register_pcplus4		(pcplus4_e     				),
-	.i_de_register_src_pc		(i_dp_src_pc				),
-	.i_de_register_src_imm		(i_dp_src_imm				),
-	.i_de_register_src_rd		(i_dp_src_rd				),
-	.i_de_register_src_alu_a	(i_dp_src_alu_a				),
-	.i_de_register_src_alu_b	(i_dp_src_alu_b				),
-	.i_de_register_reg_wr_en	(i_dp_reg_wr_en				),
-	.i_de_register_mem_wr_en	(i_dp_mem_wr_en				), 
-	.i_de_register_mem_byte_sel	(i_dp_mem_byte_sel			), 
-	.i_de_register_alu_ctrl		(i_dp_alu_ctrl				),
-	.i_de_register_rs1_data		(regfile_rs1_data			),
-	.i_de_register_rs2_data		(regfile_rs2_data			),
-	.i_de_register_pc			(pc_d						),
-	.i_de_register_rs1_addr		(instr_d[19:15]				),
-	.i_de_register_rs2_addr		(instr_d[24:20]				),
-	.i_de_register_rd_addr		(instr_d[11: 7]				),
-	.i_de_register_func3		(instr_d[14: 12]			),
-	.i_de_register_imm_ext		(immediate					),
-	.i_de_register_pcplus4		(pcplus4_d					),
-	.i_de_register_en			(stall_d					),
-	.i_clk						(i_clk						),
-	.i_rstn						(flush_e					)
+		.o_de_register_src_pc		(src_pc_e      		),
+		.o_de_register_src_imm		(src_imm_e     		),
+		.o_de_register_src_rd		(src_rd_e      		),
+		.o_de_register_src_alu_a	(src_alu_a_e   		),
+		.o_de_register_src_alu_b	(src_alu_b_e   		),
+		.o_de_register_reg_wr_en	(reg_wr_en_e   		),
+		.o_de_register_mem_wr_en	(mem_wr_en_e   		),
+		.o_de_register_mem_byte_sel	(mem_byte_sel_e		),
+		.o_de_register_alu_ctrl		(alu_ctrl_e    		),
+		.o_de_register_rs1_data		(rs1_data_e    		),
+		.o_de_register_rs2_data		(rs2_data_e    		),
+		.o_de_register_pc			(pc_e          		),
+		.o_de_register_rs1_addr		(rs1_addr_e    		),
+		.o_de_register_rs2_addr		(rs2_addr_e    		),
+		.o_de_register_rd_addr		(rd_addr_e     		),
+		.o_de_register_func3		(func3_e       		),
+		.o_de_register_imm_ext		(imm_ext_e     		),
+		.o_de_register_pcplus4		(pcplus4_e     		),
+		.i_de_register_src_pc		(i_dp_src_pc		),
+		.i_de_register_src_imm		(i_dp_src_imm		),
+		.i_de_register_src_rd		(i_dp_src_rd		),
+		.i_de_register_src_alu_a	(i_dp_src_alu_a		),
+		.i_de_register_src_alu_b	(i_dp_src_alu_b		),
+		.i_de_register_reg_wr_en	(i_dp_reg_wr_en		),
+		.i_de_register_mem_wr_en	(i_dp_mem_wr_en		), 
+		.i_de_register_mem_byte_sel	(i_dp_mem_byte_sel	), 
+		.i_de_register_alu_ctrl		(i_dp_alu_ctrl		),
+		.i_de_register_rs1_data		(regfile_rs1_data	),
+		.i_de_register_rs2_data		(regfile_rs2_data	),
+		.i_de_register_pc			(pc_d				),
+		.i_de_register_rs1_addr		(instr_d[19:15]		),
+		.i_de_register_rs2_addr		(instr_d[24:20]		),
+		.i_de_register_rd_addr		(instr_d[11: 7]		),
+		.i_de_register_func3		(instr_d[14: 12]	),
+		.i_de_register_imm_ext		(immediate			),
+		.i_de_register_pcplus4		(pcplus4_d			),
+		.i_de_register_en			(stall_d			),
+		.i_clk						(i_clk				),
+		.i_rstn						(flush_e			)
 	);
 
 
@@ -332,57 +332,57 @@ module riscv_pipeline_datapath
 
 	riscv_em_register
 	#(
-	.REGISTER_INIT				(REGISTER_INIT				)
+	.REGISTER_INIT				(REGISTER_INIT			)
 	)
 	u_riscv_em_register(
-	.o_em_register_src_rd		(src_rd_m			), 
-	.o_em_register_reg_wr_en	(reg_wr_en_m		),
-	.o_em_register_mem_wr_en	(mem_wr_en_m		),
-	.o_em_register_mem_byte_sel	(mem_byte_sel_m		),
-	.o_em_register_alu_result	(alu_result_m		),
-	.o_em_register_write_data	(write_data_m		),
-	.o_em_register_rd_addr		(rd_addr_m			),
-	.o_em_register_func3		(func3_m			),
-	.o_em_register_pcplus4		(pcplus4_m			),
-	.o_em_register_imm_ext		(imm_ext_m			),
-	.i_em_register_src_rd		(src_rd_e			),
-	.i_em_register_reg_wr_en	(reg_wr_en_e		),
-	.i_em_register_mem_wr_en	(mem_wr_en_e		),
-	.i_em_register_mem_byte_sel	(mem_byte_sel_e		),
-	.i_em_register_alu_result	(alu_result			),
-	.i_em_register_write_data	(forward_be_result	),
-	.i_em_register_rd_addr		(rd_addr_e			),
-	.i_em_register_func3		(func3_e			),
-	.i_em_register_pcplus4		(pcplus4_e			),
-	.i_em_register_imm_ext		(imm_ext_e			),
-	.i_em_register_en			(1'b1				),
-	.i_clk						(i_clk				),
-	.i_rstn						(i_rstn				)
+		.o_em_register_src_rd		(src_rd_m			), 
+		.o_em_register_reg_wr_en	(reg_wr_en_m		),
+		.o_em_register_mem_wr_en	(mem_wr_en_m		),
+		.o_em_register_mem_byte_sel	(mem_byte_sel_m		),
+		.o_em_register_alu_result	(alu_result_m		),
+		.o_em_register_write_data	(write_data_m		),
+		.o_em_register_rd_addr		(rd_addr_m			),
+		.o_em_register_func3		(func3_m			),
+		.o_em_register_pcplus4		(pcplus4_m			),
+		.o_em_register_imm_ext		(imm_ext_m			),
+		.i_em_register_src_rd		(src_rd_e			),
+		.i_em_register_reg_wr_en	(reg_wr_en_e		),
+		.i_em_register_mem_wr_en	(mem_wr_en_e		),
+		.i_em_register_mem_byte_sel	(mem_byte_sel_e		),
+		.i_em_register_alu_result	(alu_result			),
+		.i_em_register_write_data	(forward_be_result	),
+		.i_em_register_rd_addr		(rd_addr_e			),
+		.i_em_register_func3		(func3_e			),
+		.i_em_register_pcplus4		(pcplus4_e			),
+		.i_em_register_imm_ext		(imm_ext_e			),
+		.i_em_register_en			(1'b1				),
+		.i_clk						(i_clk				),
+		.i_rstn						(i_rstn				)
 	);
 
 
 	riscv_mw_register
 	#(
-	.REGISTER_INIT			(REGISTER_INIT			)
+	.REGISTER_INIT			(REGISTER_INIT				)
 	)
 	u_riscv_mw_register(
-	.o_mw_register_src_rd		(src_rd_w			),
-	.o_mw_register_reg_wr_en	(reg_wr_en_w		),
-	.o_mw_register_alu_result	(alu_result_w		),
-	.o_mw_register_rd_data		(rd_data_w			),
-	.o_mw_register_rd_addr		(rd_addr_w			),
-	.o_mw_register_pcplus4		(pcplus4_w			),
-	.o_mw_register_imm_ext		(imm_ext_w			),
-	.i_mw_register_src_rd		(src_rd_m			),
-	.i_mw_register_reg_wr_en	(reg_wr_en_m		),
-	.i_mw_register_alu_result	(alu_result_m		),
-	.i_mw_register_rd_data		(i_dp_mem_rd_data	),
-	.i_mw_register_rd_addr		(rd_addr_m			),
-	.i_mw_register_pcplus4		(pcplus4_m			),
-	.i_mw_register_imm_ext		(imm_ext_m			),
-	.i_mw_register_en			(1'b1				),
-	.i_clk						(i_clk				),
-	.i_rstn						(i_rstn				)
+		.o_mw_register_src_rd		(src_rd_w			),
+		.o_mw_register_reg_wr_en	(reg_wr_en_w		),
+		.o_mw_register_alu_result	(alu_result_w		),
+		.o_mw_register_rd_data		(rd_data_w			),
+		.o_mw_register_rd_addr		(rd_addr_w			),
+		.o_mw_register_pcplus4		(pcplus4_w			),
+		.o_mw_register_imm_ext		(imm_ext_w			),
+		.i_mw_register_src_rd		(src_rd_m			),
+		.i_mw_register_reg_wr_en	(reg_wr_en_m		),
+		.i_mw_register_alu_result	(alu_result_m		),
+		.i_mw_register_rd_data		(i_dp_mem_rd_data	),
+		.i_mw_register_rd_addr		(rd_addr_m			),
+		.i_mw_register_pcplus4		(pcplus4_m			),
+		.i_mw_register_imm_ext		(imm_ext_m			),
+		.i_mw_register_en			(1'b1				),
+		.i_clk						(i_clk				),
+		.i_rstn						(i_rstn				)
 	);
 
 	riscv_mux
@@ -398,23 +398,23 @@ module riscv_pipeline_datapath
 
 	riscv_hazard_unit
 	u_riscv_hazard_unit(
-	.o_hazard_stall_f		(stall_f	),
-	.o_hazard_stall_d		(stall_d	),
-	.o_hazard_flush_d		(flush_d	),
-	.o_hazard_flush_e		(flush_e	),
-	.o_hazard_forward_ae	(forward_ae),
-	.o_hazard_forward_be	(forward_be),
-	.i_hazard_rs1_addr_d	(instr_d[19:15]),
-	.i_hazard_rs2_addr_d	(instr_d[24:20]),
-	.i_hazard_rd_addr_e		(rd_addr_e	),
-	.i_hazard_rs1_addr_e	(rs1_addr_e),
-	.i_hazard_rs2_addr_e	(rs2_addr_e),
-	.i_hazard_src_pc		(src_pc_e	),
-	.i_hazard_src_rd_0		(src_rd_e[0]	),
-	.i_hazard_rd_addr_m		(rd_addr_m	),
-	.i_hazard_reg_wr_en_m	(reg_wr_en_m),
-	.i_hazard_rd_addr_w		(rd_addr_w	),
-	.i_hazard_reg_wr_en_w	(reg_wr_en_w)
+		.o_hazard_stall_f		(stall_f		),
+		.o_hazard_stall_d		(stall_d		),
+		.o_hazard_flush_d		(flush_d		),
+		.o_hazard_flush_e		(flush_e		),
+		.o_hazard_forward_ae	(forward_ae		),
+		.o_hazard_forward_be	(forward_be		),
+		.i_hazard_rs1_addr_d	(instr_d[19:15]	),
+		.i_hazard_rs2_addr_d	(instr_d[24:20]	),
+		.i_hazard_rd_addr_e		(rd_addr_e		),
+		.i_hazard_rs1_addr_e	(rs1_addr_e		),
+		.i_hazard_rs2_addr_e	(rs2_addr_e		),
+		.i_hazard_src_pc		(src_pc_e		),
+		.i_hazard_src_rd_0		(src_rd_e[0]	),
+		.i_hazard_rd_addr_m		(rd_addr_m		),
+		.i_hazard_reg_wr_en_m	(reg_wr_en_m	),
+		.i_hazard_rd_addr_w		(rd_addr_w		),
+		.i_hazard_reg_wr_en_w	(reg_wr_en_w	)
 	);
 
 
