@@ -9,13 +9,13 @@
 
 `ifndef		NOINC
 `include	"../common/riscv_configs.v"
+`include	"../common/riscv_register.v"
 `include	"../common/riscv_adder.v"
 `include	"../common/riscv_alu.v"
 `include	"../common/riscv_immext.v"
 `include	"../common/riscv_mux.v"
 `include	"../common/riscv_regfile.v"
 
-`include	"./riscv_pipeline_register.v"
 `include	"./riscv_fd_register.v"
 `include	"./riscv_de_register.v"
 `include	"./riscv_em_register.v"
