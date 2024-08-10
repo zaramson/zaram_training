@@ -15,10 +15,10 @@
 
 module riscv_hazard_unit
 (	
-	output reg					o_hazard_stall_f,
-	output reg					o_hazard_stall_d,
-	output reg					o_hazard_flush_d,
-	output reg					o_hazard_flush_e,
+	output 						o_hazard_stall_f,
+	output 						o_hazard_stall_d,
+	output 						o_hazard_flush_d,
+	output 						o_hazard_flush_e,
 	output reg	[	   1:0]		o_hazard_forward_ae,
 	output reg	[	   1:0]		o_hazard_forward_be,
 	input		[      4:0]		i_hazard_rs1_addr_d,
@@ -65,7 +65,7 @@ module riscv_hazard_unit
 		
 		assign o_hazard_stall_f = o_hazard_stall_d;
 		assign o_hazard_stall_d = o_hazard_flush_e;
-		assign o_hazard_flush_e = lwstall;
+		//TODO assign o_hazard_flush_e = lwstall;
 
 	//Control hazard flush
 		assign o_hazard_flush_d = i_hazard_src_pc;

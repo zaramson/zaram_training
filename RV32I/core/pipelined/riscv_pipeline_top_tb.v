@@ -1,7 +1,7 @@
 // ==================================================
 //	[ ZARAM OJT. ]
 //	* Author		: Seok Jin Son (sonsj98@zaram.com)
-//	* Filename		: riscv_top_pipeline_tb.v
+//	* Filename		: riscv_pipeline_top_tb.v
 //	* Date			: 2024-08-09 18:03:40
 //	* Description	:
 // ==================================================
@@ -35,8 +35,13 @@
 `include	"riscv_pipeline_cpu.v"
 `include	"../singlecycle/riscv_ctrl.v"
 `include	"riscv_pipeline_datapath.v"
+`include	"./riscv_fd_register.v"
+`include	"./riscv_de_register.v"
+`include	"./riscv_em_register.v"
+`include	"./riscv_mw_register.v"
+`include	"./riscv_hazard_unit.v"
 
-module riscv_top_tb;
+module riscv_pipeline_top_tb;
 // --------------------------------------------------
 //	DUT Signals & Instantiate
 // --------------------------------------------------

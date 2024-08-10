@@ -14,8 +14,8 @@
 `include	"../common/riscv_immext.v"
 `include	"../common/riscv_mux.v"
 `include	"../common/riscv_regfile.v"
-`include	"../common/riscv_register.v"
 
+`include	"./riscv_pipeline_register.v"
 `include	"./riscv_fd_register.v"
 `include	"./riscv_de_register.v"
 `include	"./riscv_em_register.v"
@@ -75,6 +75,8 @@ module riscv_pipeline_datapath
 	wire		[(4*`XLEN)-1:0]	mux_concat_rd;
 	wire		[(2*`XLEN)-1:0]	mux_concat_alu_a;
 	wire		[(2*`XLEN)-1:0]	mux_concat_alu_b;
+	wire		[(3*`XLEN)-1:0]	mux_concat_forward_ae;
+	wire		[(3*`XLEN)-1:0]	mux_concat_forward_be;
 
 	assign	mux_concat_pc			= {alu_result,		pc_plus_imm,		pc_plus_4                      	} ;
 	assign	mux_concat_rd			= {imm_ext_w,		pcplus4_w,			rd_data_w,	alu_result_w 		} ;
@@ -148,12 +150,12 @@ module riscv_pipeline_datapath
 
 
 	//  Hazard Unit
-	wire	stall_f;
-	wire	stall_d;
-	wire	flush_d;
-	wire	flush_e;
-	wire	forward_ae;
-	wire	forward_be;
+	wire			stall_f;
+	wire			stall_d;
+	wire			flush_d;
+	wire			flush_e;
+	wire	[1:0]	forward_ae;
+	wire	[1:0]	forward_be;
 
 
 	riscv_mux
@@ -173,7 +175,7 @@ module riscv_pipeline_datapath
 	u_riscv_register_pc(
 		.o_register_q		(o_dp_pc			),
 		.i_register_d		(pc_next			),
-		.i_register_en		(1'b1				),
+		.i_register_en		(!stall_f			),
 		.i_clk				(i_clk				),
 		.i_rstn				(i_rstn				)
 	);
@@ -190,9 +192,10 @@ module riscv_pipeline_datapath
 		.i_fd_register_instr	(i_dp_instr		),
 		.i_fd_register_pc		(o_dp_pc		),
 		.i_fd_register_pcplus4	(pc_plus_4		),
-		.i_fd_register_en		(stall_f		),
+		.i_fd_register_en		(!stall_d		),
 		.i_clk					(i_clk			),
-		.i_rstn					(flush_d		)
+		.i_rstn					(i_rstn			),
+		.i_fd_register_clear	(flush_d		)
 	);
 
 
@@ -271,9 +274,10 @@ module riscv_pipeline_datapath
 		.i_de_register_func3		(instr_d[14: 12]	),
 		.i_de_register_imm_ext		(immediate			),
 		.i_de_register_pcplus4		(pcplus4_d			),
-		.i_de_register_en			(stall_d			),
+		.i_de_register_en			(1'b1				),
 		.i_clk						(i_clk				),
-		.i_rstn						(flush_e			)
+		.i_rstn						(i_rstn				),
+		.i_de_register_clear		(flush_e			)
 	);
 
 
