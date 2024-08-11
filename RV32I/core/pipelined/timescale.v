@@ -1,1 +1,1 @@
-/home/scott/timescale.v
+/home/sonseokjin/templates/verilog/timescale.v
