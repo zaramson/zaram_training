@@ -8,7 +8,6 @@
 # --------------------------------------------------
 #	Common Environment
 # --------------------------------------------------
-#TODO PRJ_PATH	=	/home/woong/projects/verilog_tutorials/RV32I
 PRJ_PATH	=	/home/sonseokjin/zaram_training/RV32I
 
 # --------------------------------------------------

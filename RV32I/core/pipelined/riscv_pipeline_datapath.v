@@ -29,7 +29,6 @@ module riscv_pipeline_datapath
 )
 (	
 	output		[`XLEN-1:0]		o_dp_pc,
-	output						o_dp_alu_zero,
 	output		[`XLEN-1:0]		o_dp_mem_addr,
 	output		[`XLEN-1:0]		o_dp_mem_wr_data,
 	output						o_dp_mem_wr_en,
@@ -39,7 +38,6 @@ module riscv_pipeline_datapath
 	input		[`XLEN-1:0]		i_dp_mem_rd_data,
 	input		[`XLEN-1:0]		i_dp_instr,
 	input		[2:0]			i_dp_src_imm,
-	input		[1:0]			i_dp_src_pc,
 	input		[1:0]			i_dp_src_rd,
 	input						i_dp_src_alu_a,
 	input						i_dp_src_alu_b,
@@ -47,9 +45,12 @@ module riscv_pipeline_datapath
 	input						i_dp_mem_wr_en,
 	input		[3:0]			i_dp_mem_byte_sel,
 	input		[3:0]			i_dp_alu_ctrl,
+	input						i_dp_is_load,
 	input						i_clk,
 	input						i_rstn
 );
+	
+
 
 	//	PC Register
 	wire		[`XLEN-1:0]		pc_next;
@@ -68,7 +69,9 @@ module riscv_pipeline_datapath
 	wire		[`XLEN-1:0]		alu_a;
 	wire		[`XLEN-1:0]		alu_b;
 	wire		[`XLEN-1:0]		alu_result;
+	wire						alu_zero;
 
+	wire		[`XLEN-1:0]			regfile_rd_data_w;
 
 	//	MUX Concat
 	wire		[(3*`XLEN)-1:0]	mux_concat_pc;
@@ -78,12 +81,10 @@ module riscv_pipeline_datapath
 	wire		[(3*`XLEN)-1:0]	mux_concat_forward_ae;
 	wire		[(3*`XLEN)-1:0]	mux_concat_forward_be;
 
-	assign	mux_concat_pc			= {alu_result,		pc_plus_imm,		pc_plus_4                      	} ;
-	assign	mux_concat_rd			= {imm_ext_w,		pcplus4_w,			rd_data_w,	alu_result_w 		} ;
+	assign	mux_concat_pc			= {alu_result,		pc_plus_imm,		pc_plus_4                   } ;
 
-	assign	mux_concat_forward_ae	= {alu_result_m,	regfile_rd_data,	rs1_data_e                      } ;
-	assign	mux_concat_forward_be	= {alu_result_m,	regfile_rd_data,	rs2_data_e                      } ;
-
+	assign	mux_concat_forward_ae	= {for_forward_result_m,	regfile_rd_data_w,	rs1_data_e              } ;
+	assign	mux_concat_forward_be	= {for_forward_result_m,	regfile_rd_data_w,	rs2_data_e              } ;
 
 	wire		[`XLEN-1:0]		forward_ae_result;
 	wire		[`XLEN-1:0]		forward_be_result;
@@ -99,7 +100,6 @@ module riscv_pipeline_datapath
 	assign 	o_dp_instr_d		= instr_d;
 
 	// D/E Register
-	wire		[1:0]			src_pc_e;
 	wire		[2:0]			src_imm_e;
 	wire		[1:0]			src_rd_e;
 	wire						src_alu_a_e;
@@ -117,7 +117,10 @@ module riscv_pipeline_datapath
 	wire		[	   2:0]		func3_e;
 	wire		[`XLEN-1:0]		imm_ext_e;
 	wire		[`XLEN-1:0]		pcplus4_e;
+	wire		[6:0]			opcode_e;
 
+	reg			[1:0]			src_pc_f;
+	wire						is_load_e;
 
 	// E/M Register
 	wire		[1:0]			src_rd_m;
@@ -130,6 +133,8 @@ module riscv_pipeline_datapath
 	wire		[      2:0]		func3_m;
 	wire		[`XLEN-1:0]		pcplus4_m;
 	wire		[`XLEN-1:0]		imm_ext_m;
+	wire						is_load_m;
+	wire		[`XLEN-1:0]		for_forward_result_m;
 
 
 	assign	o_dp_mem_wr_en		= mem_wr_en_m;
@@ -147,6 +152,8 @@ module riscv_pipeline_datapath
 	wire		[	   4:0]		rd_addr_w;
 	wire		[`XLEN-1:0]		pcplus4_w;
 	wire		[`XLEN-1:0]		imm_ext_w;
+	wire						is_load_w;
+	wire		[`XLEN-1:0]		for_forward_result_w;
 
 
 	//  Hazard Unit
@@ -165,7 +172,7 @@ module riscv_pipeline_datapath
 	u_riscv_mux_pc(
 		.o_mux_data			(pc_next			),
 		.i_mux_concat_data	(mux_concat_pc		),
-		.i_mux_sel			(src_pc_e			)
+		.i_mux_sel			(src_pc_f			)
 	);
 
 	riscv_register
@@ -203,10 +210,10 @@ module riscv_pipeline_datapath
 	u_riscv_regfile(
 		.o_regfile_rs1_data	(regfile_rs1_data	),
 		.o_regfile_rs2_data	(regfile_rs2_data	),
-		.i_regfile_rs1_addr	(instr_d[19:15]	),
-		.i_regfile_rs2_addr	(instr_d[24:20]	),
-		.i_regfile_rd_data	(regfile_rd_data	), 
-		.i_regfile_rd_addr	(instr_d[11: 7]	),
+		.i_regfile_rs1_addr	(instr_d[19:15]		),
+		.i_regfile_rs2_addr	(instr_d[24:20]		),
+		.i_regfile_rd_data	(regfile_rd_data_w	), 
+		.i_regfile_rd_addr	(rd_addr_w			),
 		.i_regfile_rd_wen	(reg_wr_en_w		), 
 		.i_clk				(i_clk				)
 	);
@@ -238,7 +245,6 @@ module riscv_pipeline_datapath
 	.REGISTER_INIT				(REGISTER_INIT			)
 	)
 	u_riscv_de_register(
-		.o_de_register_src_pc		(src_pc_e      		),
 		.o_de_register_src_imm		(src_imm_e     		),
 		.o_de_register_src_rd		(src_rd_e      		),
 		.o_de_register_src_alu_a	(src_alu_a_e   		),
@@ -256,7 +262,8 @@ module riscv_pipeline_datapath
 		.o_de_register_func3		(func3_e       		),
 		.o_de_register_imm_ext		(imm_ext_e     		),
 		.o_de_register_pcplus4		(pcplus4_e     		),
-		.i_de_register_src_pc		(i_dp_src_pc		),
+		.o_de_register_opcode		(opcode_e			),
+		.o_de_register_is_load		(is_load_e			),
 		.i_de_register_src_imm		(i_dp_src_imm		),
 		.i_de_register_src_rd		(i_dp_src_rd		),
 		.i_de_register_src_alu_a	(i_dp_src_alu_a		),
@@ -275,6 +282,8 @@ module riscv_pipeline_datapath
 		.i_de_register_imm_ext		(immediate			),
 		.i_de_register_pcplus4		(pcplus4_d			),
 		.i_de_register_en			(1'b1				),
+		.i_de_register_opcode		(instr_d[6:0]		),
+		.i_de_register_is_load		(i_dp_is_load		),
 		.i_clk						(i_clk				),
 		.i_rstn						(i_rstn				),
 		.i_de_register_clear		(flush_e			)
@@ -302,14 +311,13 @@ module riscv_pipeline_datapath
 		.i_mux_sel			(forward_be				)
 	);
 
-
 	riscv_alu
 	u_riscv_alu(
 		.o_alu_result		(alu_result			),
-		.o_alu_zero			(o_dp_alu_zero		),
+		.o_alu_zero			(alu_zero			),
 		.i_alu_a			(alu_a				),
 		.i_alu_b			(alu_b				),
-		.i_alu_ctrl			(i_dp_alu_ctrl		)
+		.i_alu_ctrl			(alu_ctrl_e			)
 	);
 
 
@@ -320,7 +328,7 @@ module riscv_pipeline_datapath
 	u_riscv_mux_alu_a(
 		.o_mux_data			(alu_a				),
 		.i_mux_concat_data	(mux_concat_alu_a	),
-		.i_mux_sel			(i_dp_src_alu_a		)
+		.i_mux_sel			(src_alu_a_e		)
 	);
 
 	riscv_mux
@@ -330,12 +338,36 @@ module riscv_pipeline_datapath
 	u_riscv_mux_alu_b(
 		.o_mux_data			(alu_b				),
 		.i_mux_concat_data	(mux_concat_alu_b	),
-		.i_mux_sel			(i_dp_src_alu_b		)
+		.i_mux_sel			(src_alu_b_e		)
 	);
 
+	reg							take_branch;
+	always @(*) begin
+		if (opcode_e == `OPCODE_B_BRANCH) begin
+			case (func3_e)
+				`FUNCT3_BRANCH_BEQ	: take_branch =  alu_zero;
+				`FUNCT3_BRANCH_BNE 	: take_branch = !alu_zero;
+				`FUNCT3_BRANCH_BLT 	: take_branch = !alu_zero;
+				`FUNCT3_BRANCH_BGE 	: take_branch =  alu_zero;
+				`FUNCT3_BRANCH_BLTU	: take_branch = !alu_zero;
+				`FUNCT3_BRANCH_BGEU	: take_branch =  alu_zero;
+				default				: take_branch = 1'b0;
+			endcase
+		end else begin
+			take_branch	= 1'b0;
+		end
+	end
 
-	riscv_em_register
-	#(
+	always @(*) begin
+		case (opcode_e)
+			`OPCODE_B_BRANCH	: src_pc_f	= (take_branch) ? `SRC_PC_PC_IMM: `SRC_PC_PC_4;
+			`OPCODE_J_JAL		: src_pc_f	= `SRC_PC_PC_IMM;
+			`OPCODE_I_JALR		: src_pc_f	= `SRC_PC_RS_IMM;
+			default				: src_pc_f	= `SRC_PC_PC_4;
+		endcase
+	end
+
+	riscv_em_register #(
 	.REGISTER_INIT				(REGISTER_INIT			)
 	)
 	u_riscv_em_register(
@@ -349,6 +381,7 @@ module riscv_pipeline_datapath
 		.o_em_register_func3		(func3_m			),
 		.o_em_register_pcplus4		(pcplus4_m			),
 		.o_em_register_imm_ext		(imm_ext_m			),
+		.o_em_register_is_load		(is_load_m			),
 		.i_em_register_src_rd		(src_rd_e			),
 		.i_em_register_reg_wr_en	(reg_wr_en_e		),
 		.i_em_register_mem_wr_en	(mem_wr_en_e		),
@@ -360,45 +393,65 @@ module riscv_pipeline_datapath
 		.i_em_register_pcplus4		(pcplus4_e			),
 		.i_em_register_imm_ext		(imm_ext_e			),
 		.i_em_register_en			(1'b1				),
+		.i_em_register_is_load		(is_load_e			),
 		.i_clk						(i_clk				),
 		.i_rstn						(i_rstn				)
 	);
 
+
+	wire [`XLEN*3-1:0] mux_concat_rd_m;
+	assign	mux_concat_rd_m			= {imm_ext_m,		pcplus4_m,		alu_result_m} ;
+
+	riscv_mux
+	#(
+		.N_MUX_IN			(3					)
+	)
+	u_riscv_mux_alu_pc4_imm_m(
+		.o_mux_data			(for_forward_result_m	),
+		.i_mux_concat_data	(mux_concat_rd_m	),
+		.i_mux_sel			(src_rd_m		)
+	);
 
 	riscv_mw_register
 	#(
 	.REGISTER_INIT			(REGISTER_INIT				)
 	)
 	u_riscv_mw_register(
-		.o_mw_register_src_rd		(src_rd_w			),
-		.o_mw_register_reg_wr_en	(reg_wr_en_w		),
-		.o_mw_register_alu_result	(alu_result_w		),
-		.o_mw_register_rd_data		(rd_data_w			),
-		.o_mw_register_rd_addr		(rd_addr_w			),
-		.o_mw_register_pcplus4		(pcplus4_w			),
-		.o_mw_register_imm_ext		(imm_ext_w			),
-		.i_mw_register_src_rd		(src_rd_m			),
-		.i_mw_register_reg_wr_en	(reg_wr_en_m		),
-		.i_mw_register_alu_result	(alu_result_m		),
-		.i_mw_register_rd_data		(i_dp_mem_rd_data	),
-		.i_mw_register_rd_addr		(rd_addr_m			),
-		.i_mw_register_pcplus4		(pcplus4_m			),
-		.i_mw_register_imm_ext		(imm_ext_m			),
-		.i_mw_register_en			(1'b1				),
-		.i_clk						(i_clk				),
-		.i_rstn						(i_rstn				)
+		.o_mw_register_src_rd					(src_rd_w			 ),
+		.o_mw_register_reg_wr_en				(reg_wr_en_w		 ),
+		.o_mw_register_alu_result				(alu_result_w		 ),
+		.o_mw_register_rd_data					(rd_data_w			 ),
+		.o_mw_register_rd_addr					(rd_addr_w			 ),
+		.o_mw_register_pcplus4					(pcplus4_w			 ),
+		.o_mw_register_imm_ext					(imm_ext_w			 ),
+		.o_mw_register_is_load					(is_load_w			 ),
+		.o_mw_register_for_forward_result		(for_forward_result_w),
+		.i_mw_register_src_rd					(src_rd_m			 ),
+		.i_mw_register_reg_wr_en				(reg_wr_en_m		 ),
+		.i_mw_register_alu_result				(alu_result_m		 ),
+		.i_mw_register_rd_data					(i_dp_mem_rd_data	 ),
+		.i_mw_register_rd_addr					(rd_addr_m			 ),
+		.i_mw_register_pcplus4					(pcplus4_m			 ),
+		.i_mw_register_imm_ext					(imm_ext_m			 ),
+		.i_mw_register_en						(1'b1				 ),
+		.i_mw_register_is_load					(is_load_m			 ),
+		.i_mw_register_for_forward_result		(for_forward_result_m),
+		.i_clk									(i_clk				 ),
+		.i_rstn									(i_rstn				 )
 	);
+
+
+	wire    [`XLEN*2-1:0]	mux_concat_rd_w = {rd_data_w, for_forward_result_w};
 
 	riscv_mux
 	#(
-		.N_MUX_IN			(4					)
+		.N_MUX_IN			(2					)
 	)
-	u_riscv_mux_regfile_rd_data(
-		.o_mux_data			(regfile_rd_data	),
-		.i_mux_concat_data	(mux_concat_rd		),
-		.i_mux_sel			(src_rd_w		)
+	u_riscv_mux_regfile_rd_data_w(
+		.o_mux_data			(regfile_rd_data_w	),
+		.i_mux_concat_data	(mux_concat_rd_w	),
+		.i_mux_sel			(is_load_w			)
 	);
-
 
 	riscv_hazard_unit
 	u_riscv_hazard_unit(
@@ -413,8 +466,8 @@ module riscv_pipeline_datapath
 		.i_hazard_rd_addr_e		(rd_addr_e		),
 		.i_hazard_rs1_addr_e	(rs1_addr_e		),
 		.i_hazard_rs2_addr_e	(rs2_addr_e		),
-		.i_hazard_src_pc		(src_pc_e		),
-		.i_hazard_src_rd_0		(src_rd_e[0]	),
+		.i_hazard_src_pc		(src_pc_f		),
+		.i_hazard_is_load_e		(is_load_e		),
 		.i_hazard_rd_addr_m		(rd_addr_m		),
 		.i_hazard_reg_wr_en_m	(reg_wr_en_m	),
 		.i_hazard_rd_addr_w		(rd_addr_w		),

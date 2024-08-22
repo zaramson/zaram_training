@@ -50,6 +50,7 @@ module riscv_alu
 			`ALU_CTRL_SRA	:	DEBUG_ALU_OP	= "SRA	";
 			`ALU_CTRL_OR	:	DEBUG_ALU_OP	= "OR	";
 			`ALU_CTRL_AND	:	DEBUG_ALU_OP	= "AND	";
+			default			:	DEBUG_ALU_OP	= "		";
 		endcase
 	end
 `endif

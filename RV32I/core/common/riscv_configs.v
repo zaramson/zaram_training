@@ -16,7 +16,7 @@
 `define	DMEM_INIT
 `define	IMEM_INIT
 
-`define	DMEM_INIT_FILE		"/home/sonseokjin/zaram_training/RV32I/core/common/riscv_dmem.mif"
+//`define	DMEM_INIT_FILE		"/home/sonseokjin/zaram_training/RV32I/core/common/riscv_dmem.mif"
 //`define	IMEM_INIT_FILE		"/home/sonseokjin/zaram_training/RV32I/core/singlecycle/riscvtest.txt"
 
 // --------------------------------------------------
@@ -70,9 +70,9 @@
 // Source RD (Register File Write Data)
 // --------------------------------------------------
 `define	SRC_RD_ALU   		2'b00
-`define	SRC_RD_DME   		2'b01
-`define	SRC_RD_PC4			2'b10
-`define	SRC_RD_IMM			2'b11
+//TODO `define	SRC_RD_DME   		2'b01
+`define	SRC_RD_PC4			2'b01
+`define	SRC_RD_IMM			2'b10
 
 // --------------------------------------------------
 // source alu

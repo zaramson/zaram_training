@@ -31,7 +31,7 @@ module riscv_regfile
 	// Hardwired X0
 	initial		registers[0] = `XLEN'b0;
 
-	always @(posedge i_clk) begin
+	always @(negedge i_clk) begin
 		//	"Write Enabled" and  "Write Address != 0"
 		if (i_regfile_rd_wen && (i_regfile_rd_addr != 0)) begin
 			registers[i_regfile_rd_addr] <= i_regfile_rd_data;
@@ -40,5 +40,6 @@ module riscv_regfile
 			registers[i_regfile_rd_addr] <= registers[i_regfile_rd_addr];
 		end
 	end
+	
 
 endmodule

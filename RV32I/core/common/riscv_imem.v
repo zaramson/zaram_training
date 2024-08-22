@@ -17,17 +17,17 @@ module riscv_imem
 
 	reg			[`XLEN-1:0]	imem_arr[0:2**(`IMEM_ADDR_BIT-2)-1];
 
-//TODO `ifdef	IMEM_INIT
-//TODO 	reg	[8*128-1:0] IMEM_INIT_FILE;
-//TODO 	initial	begin
-//TODO 		$value$plusargs("text_mif=%s", IMEM_INIT_FILE);
-//TODO 		$readmemh(IMEM_INIT_FILE, imem_arr);
-//TODO 	end
-//TODO `endif
-
 `ifdef	IMEM_INIT
-	initial	$readmemh(`IMEM_INIT_FILE, imem_arr);
+	reg	[8*128-1:0] IMEM_INIT_FILE;
+	initial	begin
+		$value$plusargs("text_mif=%s", IMEM_INIT_FILE);
+		$readmemh(IMEM_INIT_FILE, imem_arr);
+	end
 `endif
+
+//`ifdef	IMEM_INIT
+//	initial	$readmemh(`IMEM_INIT_FILE, imem_arr);
+//`endif
 
 	assign		o_imem_data = imem_arr[i_imem_addr];
 

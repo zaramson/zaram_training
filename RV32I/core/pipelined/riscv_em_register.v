@@ -29,6 +29,7 @@ module riscv_em_register
 	output reg	[      2:0]		o_em_register_func3,
 	output reg	[`XLEN-1:0]		o_em_register_pcplus4,
 	output reg	[`XLEN-1:0]		o_em_register_imm_ext,
+	output reg					o_em_register_is_load,
 	input		[1:0]			i_em_register_src_rd,
 	input						i_em_register_reg_wr_en,
 	input						i_em_register_mem_wr_en,
@@ -40,6 +41,7 @@ module riscv_em_register
 	input		[`XLEN-1:0]		i_em_register_pcplus4,
 	input		[`XLEN-1:0]		i_em_register_imm_ext,
 	input						i_em_register_en,
+	input						i_em_register_is_load,
 	input						i_clk,
 	input						i_rstn
 );
@@ -56,6 +58,7 @@ module riscv_em_register
             o_em_register_func3         <= REGISTER_INIT;
             o_em_register_pcplus4       <= REGISTER_INIT;
             o_em_register_imm_ext       <= REGISTER_INIT;
+            o_em_register_is_load       <= REGISTER_INIT;
 		end else begin
 			if(i_em_register_en) begin
 				o_em_register_src_rd      	<= i_em_register_src_rd;
@@ -68,6 +71,7 @@ module riscv_em_register
             	o_em_register_func3         <= i_em_register_func3;
             	o_em_register_pcplus4       <= i_em_register_pcplus4;
             	o_em_register_imm_ext       <= i_em_register_imm_ext;
+            	o_em_register_is_load       <= i_em_register_is_load;
 			end else begin
 				o_em_register_src_rd      	<= o_em_register_src_rd;
             	o_em_register_reg_wr_en     <= o_em_register_reg_wr_en;
@@ -79,6 +83,7 @@ module riscv_em_register
             	o_em_register_func3         <= o_em_register_func3;
             	o_em_register_pcplus4       <= o_em_register_pcplus4;
             	o_em_register_imm_ext       <= o_em_register_imm_ext;
+            	o_em_register_is_load       <= o_em_register_is_load;
 			end
 		end
 	end

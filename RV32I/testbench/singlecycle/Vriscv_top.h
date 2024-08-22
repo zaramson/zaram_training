@@ -50,8 +50,8 @@ VL_MODULE(Vriscv_top) {
     WData/*127:0*/ riscv_top__DOT__u_riscv_cpu__DOT__u_riscv_datapath__DOT__mux_concat_rd[4];
     WData/*255:0*/ riscv_top__DOT__u_riscv_cpu__DOT__u_riscv_ctrl__DOT__DEBUG_INSTR[8];
     IData/*31:0*/ riscv_top__DOT__u_riscv_cpu__DOT__u_riscv_dmem_interface__DOT__byte_aligned_dmem_rd_data;
-    WData/*1023:0*/ riscv_top__DOT__u_riscv_imem__DOT__FILE_TEXT_MIF[32];
-    WData/*1023:0*/ riscv_top__DOT__u_riscv_dmem__DOT__FILE_DATA_MIF[32];
+    WData/*1023:0*/ riscv_top__DOT__u_riscv_imem__DOT__IMEM_INIT_FILE[32];
+    WData/*1023:0*/ riscv_top__DOT__u_riscv_dmem__DOT__DMEM_INIT_FILE[32];
     IData/*31:0*/ riscv_top__DOT__u_riscv_dmem__DOT__i;
     QData/*63:0*/ riscv_top__DOT__u_riscv_cpu__DOT__u_riscv_datapath__DOT__mux_concat_alu_a;
     QData/*63:0*/ riscv_top__DOT__u_riscv_cpu__DOT__u_riscv_datapath__DOT__mux_concat_alu_b;
@@ -73,8 +73,8 @@ VL_MODULE(Vriscv_top) {
     CData/*0:0*/ __Vclklast__TOP__i_clk;
     CData/*0:0*/ __Vclklast__TOP__i_rstn;
     SData/*10:0*/ __Vtableidx5;
-    CData/*0:0*/ __Vtablechg1[16];
     CData/*0:0*/ __Vtablechg5[2048];
+    IData/*31:0*/ __Vchglast__TOP__riscv_top__DOT__u_riscv_cpu__DOT__u_riscv_datapath__DOT__u_riscv_regfile__DOT__registers[32];
     CData/*0:0*/ __Vm_traceActivity[3];
     static QData/*63:0*/ __Vtable1_riscv_top__DOT__u_riscv_cpu__DOT__u_riscv_datapath__DOT__u_riscv_alu__DOT__DEBUG_ALU_OP[16];
     static CData/*2:0*/ __Vtable2_riscv_top__DOT__u_riscv_cpu__DOT__src_imm[128];
@@ -118,6 +118,9 @@ VL_MODULE(Vriscv_top) {
   private:
     static QData _change_request(Vriscv_top__Syms* __restrict vlSymsp);
     static QData _change_request_1(Vriscv_top__Syms* __restrict vlSymsp);
+  public:
+    static void _combo__TOP__5(Vriscv_top__Syms* __restrict vlSymsp);
+  private:
     void _ctor_var_reset() VL_ATTR_COLD;
   public:
     static void _eval(Vriscv_top__Syms* __restrict vlSymsp);
