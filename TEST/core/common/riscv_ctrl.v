@@ -6,12 +6,12 @@ module riscv_ctrl #(
 (
 	output reg	[2:0]			o_ctrl_src_imm,
 	output reg	[1:0]			o_ctrl_src_mux41,
-	output reg					o_ctrl_src_mux21_a,
-	output reg					o_ctrl_src_mux21_b,
+	output reg					o_ctrl_src_mux21_rs1,
+	output reg					o_ctrl_src_mux21_rs2,
 	output reg					o_ctrl_reg_wr_en,
 	output reg					o_ctrl_mem_wr_en,
 	output reg	[3:0]			o_ctrl_mem_byte_sel,
-	output reg	[3:0]			o_ctrl_alu_ctrl,
+	output reg	[3:0]			o_ctrl_src_alu,
 	input  wire					i_ctrl_alu_zero,
 	input  wire	[6:0]			i_ctrl_opcode,
 	input  wire	[2:0]			i_ctrl_funct3,
@@ -46,8 +46,8 @@ module riscv_ctrl #(
 
 	always @(*) begin
 		case (i_ctrl_opcode)
-			OPCODE_U_AUIPC		: o_ctrl_src_mux21_a	= SRC_ALU_A_PC;
-			default				: o_ctrl_src_mux21_a	= SRC_ALU_A_RS1;
+			OPCODE_U_AUIPC		: o_ctrl_src_mux21_rs1	= SRC_ALU_A_PC;
+			default				: o_ctrl_src_mux21_rs1	= SRC_ALU_A_RS1;
 		endcase
 	end
 
@@ -57,8 +57,8 @@ module riscv_ctrl #(
 			OPCODE_I_LOAD		,
 			OPCODE_S_STORE		,
 			OPCODE_U_AUIPC		,
-			OPCODE_I_JALR		: o_ctrl_src_mux21_b	= SRC_ALU_B_IMM;
-			default				: o_ctrl_src_mux21_b	= SRC_ALU_B_RS2;
+			OPCODE_I_JALR		: o_ctrl_src_mux21_rs2	= SRC_ALU_B_IMM;
+			default				: o_ctrl_src_mux21_rs2	= SRC_ALU_B_RS2;
 		endcase
 	end
 
@@ -99,28 +99,28 @@ module riscv_ctrl #(
 			OPCODE_R_OP		,
 			OPCODE_I_OP		: begin
 				case (i_ctrl_funct3)
-					FUNCT3_ALU_ADD_SUB	: o_ctrl_alu_ctrl = (i_ctrl_funct7_5b && i_ctrl_opcode == OPCODE_R_OP) ? ALU_CTRL_SUB : ALU_CTRL_ADD ;
-					FUNCT3_ALU_XOR		: o_ctrl_alu_ctrl = ALU_CTRL_XOR                                    ;
-					FUNCT3_ALU_OR		: o_ctrl_alu_ctrl = ALU_CTRL_OR                                     ;
-					FUNCT3_ALU_AND		: o_ctrl_alu_ctrl = ALU_CTRL_AND                                    ;
-					FUNCT3_ALU_SLL		: o_ctrl_alu_ctrl = ALU_CTRL_SLL                                    ;
-					FUNCT3_ALU_SRL_SRA	: o_ctrl_alu_ctrl = i_ctrl_funct7_5b ? ALU_CTRL_SRA : ALU_CTRL_SRL ;
-					FUNCT3_ALU_SLT		: o_ctrl_alu_ctrl = ALU_CTRL_SLT                                    ;
-					FUNCT3_ALU_SLTU		: o_ctrl_alu_ctrl = ALU_CTRL_SLTU                                   ;
+					FUNCT3_ALU_ADD_SUB	: o_ctrl_src_alu = (i_ctrl_funct7_5b && i_ctrl_opcode == OPCODE_R_OP) ? ALU_CTRL_SUB : ALU_CTRL_ADD ;
+					FUNCT3_ALU_XOR		: o_ctrl_src_alu = ALU_CTRL_XOR                                    ;
+					FUNCT3_ALU_OR		: o_ctrl_src_alu = ALU_CTRL_OR                                     ;
+					FUNCT3_ALU_AND		: o_ctrl_src_alu = ALU_CTRL_AND                                    ;
+					FUNCT3_ALU_SLL		: o_ctrl_src_alu = ALU_CTRL_SLL                                    ;
+					FUNCT3_ALU_SRL_SRA	: o_ctrl_src_alu = i_ctrl_funct7_5b ? ALU_CTRL_SRA : ALU_CTRL_SRL ;
+					FUNCT3_ALU_SLT		: o_ctrl_src_alu = ALU_CTRL_SLT                                    ;
+					FUNCT3_ALU_SLTU		: o_ctrl_src_alu = ALU_CTRL_SLTU                                   ;
 				endcase
 			end
 			OPCODE_B_BRANCH	: begin
 				case (i_ctrl_funct3)
 					FUNCT3_BRANCH_BEQ	,
-					FUNCT3_BRANCH_BNE	: o_ctrl_alu_ctrl = ALU_CTRL_SUB;
+					FUNCT3_BRANCH_BNE	: o_ctrl_src_alu = ALU_CTRL_SUB;
 					FUNCT3_BRANCH_BLT	, 
-					FUNCT3_BRANCH_BGE	: o_ctrl_alu_ctrl = ALU_CTRL_SLT;
+					FUNCT3_BRANCH_BGE	: o_ctrl_src_alu = ALU_CTRL_SLT;
 					FUNCT3_BRANCH_BLTU	,
-					FUNCT3_BRANCH_BGEU	: o_ctrl_alu_ctrl = ALU_CTRL_SLTU;
-					default				: o_ctrl_alu_ctrl = ALU_CTRL_NOP;
+					FUNCT3_BRANCH_BGEU	: o_ctrl_src_alu = ALU_CTRL_SLTU;
+					default				: o_ctrl_src_alu = ALU_CTRL_NOP;
 				endcase
 			end
-			default				: o_ctrl_alu_ctrl = ALU_CTRL_ADD;
+			default				: o_ctrl_src_alu = ALU_CTRL_ADD;
 		endcase
 	end
 
@@ -138,6 +138,7 @@ module riscv_ctrl #(
 					FUNCT3_ALU_SRL_SRA	: DEBUG_INSTR = i_ctrl_funct7_5b ? "sra" : "srl" ;
 					FUNCT3_ALU_SLT		: DEBUG_INSTR = "slt"                            ;
 					FUNCT3_ALU_SLTU		: DEBUG_INSTR = "sltu"                           ;
+					default				: DEBUG_INSTR = "No_op";
 				endcase
 			end
 			OPCODE_I_OP		: begin
@@ -150,6 +151,7 @@ module riscv_ctrl #(
 					FUNCT3_ALU_SRL_SRA	: DEBUG_INSTR = i_ctrl_funct7_5b ? "srai" : "srli" ;
 					FUNCT3_ALU_SLT		: DEBUG_INSTR = "slti"                             ;
 					FUNCT3_ALU_SLTU		: DEBUG_INSTR = "sltui"                            ;
+					default				: DEBUG_INSTR = "No_op";
 				endcase
 			end
 			OPCODE_I_LOAD		: begin
@@ -159,6 +161,7 @@ module riscv_ctrl #(
 					FUNCT3_MEM_WORD		: DEBUG_INSTR = "lw"  ;
 					FUNCT3_MEM_BYTEU	: DEBUG_INSTR = "lbu" ;
 					FUNCT3_MEM_HALFU	: DEBUG_INSTR = "lhu" ;
+					default				: DEBUG_INSTR = "No_op";
 				endcase
 			end
 			OPCODE_S_STORE		: begin
@@ -166,6 +169,7 @@ module riscv_ctrl #(
 					FUNCT3_MEM_BYTE	: DEBUG_INSTR = "sb";
 					FUNCT3_MEM_HALF	: DEBUG_INSTR = "sh";
 					FUNCT3_MEM_WORD	: DEBUG_INSTR = "sw";
+					default			: DEBUG_INSTR = "No_op";
 				endcase
 			end
 			OPCODE_B_BRANCH	: begin
@@ -176,12 +180,14 @@ module riscv_ctrl #(
 					FUNCT3_BRANCH_BGE	: DEBUG_INSTR = "bge"  ;
 					FUNCT3_BRANCH_BLTU	: DEBUG_INSTR = "bltu" ;
 					FUNCT3_BRANCH_BGEU	: DEBUG_INSTR = "bgeu" ;
+					default				: DEBUG_INSTR = "No_op";
 				endcase
 			end
 			OPCODE_J_JAL		: DEBUG_INSTR = "jal"   ;
 			OPCODE_I_JALR		: DEBUG_INSTR = "jalr"  ;
 			OPCODE_U_LUI		: DEBUG_INSTR = "lui"   ;
 			OPCODE_U_AUIPC		: DEBUG_INSTR = "auipc" ;
+			default				: DEBUG_INSTR = "No_op" ;
 		endcase
 	end
 

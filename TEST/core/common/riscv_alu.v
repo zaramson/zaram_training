@@ -4,7 +4,7 @@ module riscv_alu  #(
 	`include "riscv_param.v"
 )
 (
-	output	wire	[XLEN-1:0]	o_alu_out,
+	output	reg		[XLEN-1:0]	o_alu_out,
 	output	wire				o_alu_zero,
 	input	wire	[XLEN-1:0]	i_alu_a,
 	input	wire	[XLEN-1:0]	i_alu_b,
@@ -21,9 +21,9 @@ module riscv_alu  #(
             ALU_CTRL_SLL	: o_alu_out = i_alu_a << i_alu_b[4:0];
             ALU_CTRL_SRL	: o_alu_out = i_alu_a >> i_alu_b[4:0];
             ALU_CTRL_SRA	: o_alu_out = $signed(i_alu_a) >>> $signed(i_alu_b[4:0]);
-            ALU_CTRL_SLT	: o_alu_out = ($signed(i_alu_a) < $signed(i_alu_b)) ? XLEN'd1 : XLEN'd0
-            ALU_CTRL_SLTU	: o_alu_out = (i_alu_a < i_alu_b) ? XLEN'd1 : XLEN'd0
-			default			: o_alu_out = XLEN'dx;
+            ALU_CTRL_SLT	: o_alu_out = ($signed(i_alu_a) < $signed(i_alu_b)) ? 32'd1 : 32'd0;
+            ALU_CTRL_SLTU	: o_alu_out = (i_alu_a < i_alu_b) ? 32'd1 : 32'd0;
+			default			: o_alu_out = 32'dx;
 		endcase
 	end
 
@@ -44,6 +44,7 @@ module riscv_alu  #(
             ALU_CTRL_SRA	 : DEBUG_ALU_OP = "SRA";
             ALU_CTRL_SLT	 : DEBUG_ALU_OP = "SLT";
 	 	    ALU_CTRL_SLTU	 : DEBUG_ALU_OP = "SLTU";
+	 	    default			 : DEBUG_ALU_OP = "No_op";
 		endcase
 	end
 `endif

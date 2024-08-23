@@ -63,9 +63,9 @@ parameter	SRC_PC_RS_IMM	=	2'b10,
 // Source RD (Register File Write Data)
 // --------------------------------------------------
 parameter	SRC_RD_ALU   	=	2'b00,
-parameter	SRC_RD_DME   =		2'b01
-parameter	SRC_RD_PC4		=	2'b01,
-parameter	SRC_RD_IMM		=	2'b10,
+parameter	SRC_RD_DME   	=	2'b01,
+parameter	SRC_RD_PC4		=	2'b10,
+parameter	SRC_RD_IMM		=	2'b11,
 
 // --------------------------------------------------
 // source alu
